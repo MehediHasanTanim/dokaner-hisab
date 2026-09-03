@@ -14,7 +14,9 @@ From here on the **lockfiles are the authority**, not this file.
 | --- | --- | --- |
 | Node | 22.23.2 (`.nvmrc`) | installed toolchain |
 | Python | 3.12 | CI pin |
-| Flutter SDK | 3.47.2 | supplied by Tanim from his installed toolchain |
+| Flutter SDK | 3.47.2 | `flutter --version` on Tanim's machine |
+| Dart SDK | 3.13.2 | same — `pubspec.yaml` floors at `>=3.13.0 <4.0.0` |
+| DevTools | 2.60.0 | same |
 
 ## npm — verified live
 

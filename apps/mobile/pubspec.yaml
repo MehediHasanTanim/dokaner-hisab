@@ -4,8 +4,11 @@ publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  # SDK pinned to the Flutter release Tanim has installed (3.47.2), confirmed 03-09-2026.
-  sdk: '>=3.9.0 <4.0.0'
+  # Pinned to the toolchain actually installed, confirmed 03-09-2026:
+  #   Flutter 3.47.2 · Dart 3.13.2 · DevTools 2.60.0
+  # The lower bound is the installed Dart, not a guess — a looser floor would
+  # let a contributor resolve packages against an older SDK than CI uses.
+  sdk: '>=3.13.0 <4.0.0'
   flutter: '3.47.2'
 
 # ── Dependencies are DELIBERATELY UNPINNED HERE ──────────────────────────────
