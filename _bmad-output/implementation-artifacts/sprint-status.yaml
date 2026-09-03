@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 09-03-2026 01:59
-last_updated: 09-03-2026 12:00
+last_updated: 09-03-2026 12:20
 project: hisab-dokan
 project_key: NOKEY
 tracking_system: file-system
@@ -170,6 +170,6 @@ action_items:
     owner: "Tanim"
     status: done
   - epic: 1
-    action: "Add the GitHub remote and push. Repo is on branch `main` with four commits; CI targets `main` and cannot run until a remote exists. Must be done from Tanim's own machine: the build environment has SSH port 22 blocked by egress policy and holds no credentials. Note the existing github.com/MehediHasanTanim/hisab repo was pushed to from an unrelated ~/Personal-Finance checkout - confirm it is empty or use a fresh repo before pushing."
+    action: "Add the GitHub remote and push. DONE 09-03-2026: origin is github.com/MehediHasanTanim/dokaner-hisab (a fresh repo, not the older `hisab` one), branch `main` pushed and tracking. The repo is PUBLIC - no secrets are committed (.gitignore excludes .env* except .env.example) but treat it as world-readable from here on."
     owner: "Tanim"
-    status: open
+    status: done
