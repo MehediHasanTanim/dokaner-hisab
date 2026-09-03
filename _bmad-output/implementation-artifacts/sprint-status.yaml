@@ -29,14 +29,14 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 09-03-2026 01:59
-last_updated: 09-03-2026 01:59
+last_updated: 09-03-2026 12:00
 project: hisab-dokan
 project_key: NOKEY
 tracking_system: file-system
 story_location: _bmad-output/implementation-artifacts
 development_status:
   epic-1: in-progress
-  1-1-stand-up-the-workspace-and-pin-the-stack: in-progress
+  1-1-stand-up-the-workspace-and-pin-the-stack: done
   1-2-make-the-app-look-like-hisab: backlog
   1-3-show-numbers-the-way-the-owner-reads-them: backlog
   1-4-keep-the-shop-s-data-safe-on-the-phone: backlog
@@ -166,10 +166,10 @@ action_items:
     owner: "Tanim"
     status: done
   - epic: 1
-    action: "Finish Story 1.1 for apps/mobile: run `flutter create .` then `scripts/bootstrap.sh` on a machine with Flutter 3.47.2, and commit pubspec.yaml + pubspec.lock. pub.dev was unreachable from the build environment so no Dart version was written rather than guessed. Story 1.1 stays in-progress until this lands."
+    action: "Finish Story 1.1 for apps/mobile: run `flutter create .` then `scripts/bootstrap.sh` on a machine with Flutter 3.47.2, and commit pubspec.yaml + pubspec.lock. pub.dev was unreachable from the build environment so no Dart version was written rather than guessed. DONE 09-03-2026: resolved against pub.dev on Flutter 3.47.2 / Dart 3.13.2; lockfile committed. The run surfaced that sqlcipher_flutter_libs and sqlite3_flutter_libs are both retired (+eol) - replaced by sqlite3 ^3.5.2 with hooks.user_defines.sqlite3.source: sqlcipher, which is what keeps AD-17 true."
     owner: "Tanim"
-    status: open
+    status: done
   - epic: 1
-    action: "Add the GitHub remote and push. Repo initialised locally on branch `main` with two commits; CI targets `main` and cannot run until a remote exists."
+    action: "Add the GitHub remote and push. Repo is on branch `main` with four commits; CI targets `main` and cannot run until a remote exists. Must be done from Tanim's own machine: the build environment has SSH port 22 blocked by egress policy and holds no credentials. Note the existing github.com/MehediHasanTanim/hisab repo was pushed to from an unrelated ~/Personal-Finance checkout - confirm it is empty or use a fresh repo before pushing."
     owner: "Tanim"
     status: open
