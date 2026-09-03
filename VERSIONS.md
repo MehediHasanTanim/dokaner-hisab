@@ -23,13 +23,31 @@ From here on the **lockfiles are the authority**, not this file.
 `class-validator` 0.15.1 · `ioredis` 6.0.0 · `bullmq` 6.3.4 · `next` 16.3.4 ·
 `react`/`react-dom` 19.2.8 · `tailwindcss` 4.3.3 · `@tanstack/react-query` 5.102.8 ·
 `eslint` 10.9.1 · `prettier` 3.9.6 · `vitest` 4.1.11 · `uuid` 14.0.2 ·
-`supertest` 7.2.2 · `@types/supertest` 7.2.1
+`supertest` 7.2.2 · `@types/supertest` 7.2.1 · `@nestjs/cli` 12.0.0 ·
+`@nestjs/schematics` 12.0.0 · `@types/react` 19.2.18 · `@types/react-dom` 19.2.5 ·
+`reflect-metadata` 0.2.2 · `rxjs` 7.8.2
 
 ## PyPI — verified live
 
 `fastapi` 0.141.1 · `uvicorn` 0.52.4 · `pydantic` 2.13.5 ·
 `pydantic-settings` 2.15.0 · `psycopg` 3.3.5 · `httpx` 0.28.1 ·
 `pytest` 9.1.1 · `ruff` 0.16.5
+
+## Three things the install caught that a hand-written pin would not
+
+**`@nestjs/cli` is 12.0.0, not 12.0.1.** It does not share a version with
+`@nestjs/core`, and assuming it did failed the install outright. Same for
+`@nestjs/schematics`.
+
+**TypeScript 7 removed `baseUrl`.** `apps/api/tsconfig.json` used it and would
+not compile. Replaced per the compiler's own guidance.
+
+**React 19 types no longer expose a global `JSX` namespace.** `apps/admin`
+needed `@types/react`, `@types/react-dom`, a committed `next-env.d.ts` and
+`jsxImportSource`. Without them nothing with JSX typechecks.
+
+None of these were predictable from the version numbers alone, which is the
+whole argument for the story's "verify, don't assume" acceptance criterion.
 
 ## Two judgement calls worth knowing about
 
@@ -43,6 +61,12 @@ Revisit when 8.x goes stable.
 current stable. If it turns out to conflict with NestJS 12's decorator
 emit, drop to the newest 6.x — but verify against the registry first rather
 than assuming a version.
+
+## Verification actually run
+
+`npm run typecheck` passes across `contracts`, `api` and `admin` on the pinned
+set. `package-lock.json` (lockfileVersion 3, 535 entries) is committed and is
+the authority from here on.
 
 ## Not verified — outstanding
 
