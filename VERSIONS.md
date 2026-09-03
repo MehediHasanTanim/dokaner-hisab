@@ -70,14 +70,60 @@ than assuming a version.
 set. `package-lock.json` (lockfileVersion 3, 535 entries) is committed and is
 the authority from here on.
 
+## pub.dev — resolved by `flutter pub add` on 03-09-2026
+
+Resolved on Tanim's machine, because pub.dev is unreachable from the
+environment that scaffolded this workspace. `pubspec.lock` is the authority.
+
+`flutter_riverpod` 3.4.2 · `riverpod_annotation` 4.0.6 · `riverpod_generator` 4.0.8 ·
+`go_router` 18.0.1 · `dio` 5.11.0 · `drift` 2.34.4 · `drift_dev` 2.34.6 ·
+`sqlite3` 3.5.2 · `flutter_secure_storage` 11.0.0 · `connectivity_plus` 7.3.1 ·
+`firebase_core` 4.14.0 · `firebase_messaging` 16.6.0 ·
+`flutter_local_notifications` 22.3.0 · `freezed` 4.0.1 / `freezed_annotation` 3.1.0 ·
+`json_serializable` 6.14.1 / `json_annotation` 4.12.0 · `intl` 0.20.3 ·
+`uuid` 4.6.0 · `share_plus` 13.3.0 · `pdf` 3.13.0 · `printing` 5.15.0 ·
+`path_provider` 2.1.6 · `build_runner` 2.16.1 · `flutter_lints` 6.0.0 · `mocktail` 1.0.5
+
+### The resolution surfaced a blocker, now fixed
+
+`flutter pub add` resolved **`sqlcipher_flutter_libs 0.7.0+eol`** and
+**`sqlite3_flutter_libs 0.6.0+eol`**. The `+eol` is the author's own marker:
+both packages are retired. They belong to `package:sqlite3` 2.x and are
+obsolete under 3.x.
+
+That is not cosmetic — AD-17 requires the local database to be encrypted with
+SQLCipher, and the package that provided it no longer exists in a supported
+form. Building on a retired encryption dependency is how a security invariant
+quietly rots.
+
+**Fix applied:** both packages removed; `sqlite3: ^3.5.2` added as a direct
+dependency (it was already resolving transitively); SQLCipher selected through
+pubspec configuration, which is how 3.x does it:
+
+```yaml
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlcipher
+```
+
+Two consequences for later stories: `open.overrideFor` customisation and
+`applyWorkaroundToOpenSqlite3OnOldAndroidVersions` must **not** be written —
+3.x handles both. And the `sqlite3.wasm` asset, if web is ever targeted, comes
+from the sqlite3.dart releases page.
+
+### Two notes for whoever picks up Epic 1
+
+**`uuid` 4.6.0 supports UUIDv7** (RFC 9562 v6/v7/v8) — confirmed, because AD-3
+makes client-minted UUIDv7 the sole identity and the whole offline model rests
+on it.
+
+**`riverpod_analyzer_utils` resolves to `1.0.0-dev.11`**, a dev prerelease
+pulled transitively by `riverpod_generator` 4.0.8. It is build-time only, so it
+never ships in the app — a materially smaller risk than the Prisma RC, but
+worth knowing before someone is surprised by a codegen change.
+
 ## Not verified — outstanding
 
-**Every Dart/Flutter package.** `pub.dev` was unreachable from the environment
-that generated this workspace, and no Flutter toolchain was present. No package
-version has been written into `apps/mobile/pubspec.yaml`, because a guessed
-version is precisely what this story exists to prevent.
-
-Run `apps/mobile/scripts/bootstrap.sh` on a machine with Flutter 3.47.2. It uses
-`flutter pub add`, which resolves against pub.dev and writes exact versions into
-`pubspec.yaml` and `pubspec.lock`. Commit both. **Story 1.1 is not complete
-until that is done.**
+Nothing. Every dependency in every app is now pinned to a version resolved
+against its live registry, and every lockfile is committed.
