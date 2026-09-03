@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap">
+  <style>
+    :root{--paper:#FAF5EA;--paper2:#F1E7D3;--card:#FFFDF8;--ink:#2B2419;--mut:#7C6F5B;--rule:#E4D9C2;--acc:#1F5D46;--in:#1F5D46;--out:#9C4221;--warn:#8A6516}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+    a{color:#1F5D46;text-decoration:none} a:hover{color:#14402F}
+    .scr{width:390px;height:844px;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;position:relative}
+    .ab{height:58px;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--rule);background:var(--paper)}
+    .ab .t{font-family:'Noto Serif Bengali',Georgia,serif;font-size:18px;font-weight:600;letter-spacing:-.01em}
+    .ab .sp{flex-grow:1}
+    .bd{flex-grow:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+    .bd.p0{padding:0}
+    .bd.sc{overflow-y:auto}
+    .card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px}
+    .card.q{background:var(--paper2);border-color:transparent}
+    .k{font-size:12px;color:var(--mut);font-weight:500;letter-spacing:.01em}
+    .amt{font-weight:700;letter-spacing:-.02em;line-height:1.1}
+    .xl{font-size:36px} .lg{font-size:26px} .md{font-size:19px} .sm{font-size:15px}
+    .in{color:var(--in)} .out{color:var(--out)} .wn{color:var(--warn)} .mu{color:var(--mut)}
+    .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+    .fc{display:flex;flex-direction:column}
+    .fr{display:flex;flex-direction:row;align-items:center}
+    .qa{background:var(--card);border:1px solid var(--rule);border-radius:14px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer}
+    .qa .ic{color:var(--acc)}
+    .nav{height:66px;flex-shrink:0;display:flex;border-top:1px solid var(--rule);background:var(--card)}
+    .ni{flex-grow:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--mut);font-weight:500;cursor:pointer}
+    .ni.on{color:var(--acc);font-weight:600}
+    .row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--rule)}
+    .av{width:38px;height:38px;border-radius:19px;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;color:var(--acc);flex-shrink:0}
+    .nm{font-size:15px;font-weight:600;line-height:1.3}
+    .sb{font-size:12.5px;color:var(--mut);line-height:1.4}
+    .btn{width:100%;height:54px;border-radius:13px;background:var(--acc);color:#FFFDF8;font-family:inherit;font-size:16.5px;font-weight:600;border:none;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+    .btn.s{background:transparent;color:var(--acc);border:1.5px solid var(--acc)}
+    .btn.g{background:var(--paper2);color:var(--ink);border:none}
+    .chip{display:inline-flex;align-items:center;gap:5px;background:var(--paper2);font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;color:var(--ink)}
+    .chip.w{background:#F6EAD2;color:var(--warn)}
+    .fld{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:3px}
+    .fld .v{font-size:17px;font-weight:600}
+    .fld .v.ph{color:#B9AC94;font-weight:500}
+    .led{border-top:1px solid var(--rule)}
+    .lr{display:grid;grid-template-columns:52px 1fr 78px 82px;gap:6px;padding:11px 16px;border-bottom:1px solid var(--rule);font-size:13px;align-items:center}
+    .lr.h{background:var(--paper2);font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.03em;text-transform:uppercase;border-bottom:1px solid var(--rule)}
+    .ta-r{text-align:right}
+    .hd{font-family:'Noto Serif Bengali',Georgia,serif;font-weight:600}
+    .ban{background:#F6EAD2;border:1px solid #E3CFA4;border-radius:12px;padding:10px 12px;font-size:13px;color:#6B4E10;display:flex;gap:9px;align-items:flex-start;line-height:1.45}
+    .ai{background:#EBF1EC;border:1px solid #C9DCCE;border-radius:14px;padding:14px}
+    .dot{width:7px;height:7px;border-radius:4px;background:var(--out);flex-shrink:0}
+    .sep{height:1px;background:var(--rule);border:none;margin:2px 0}
+    .tt{font-size:13.5px;line-height:1.55;color:var(--mut)}
+  </style>
+</helmet>
+<div class="scr">
+  <div class="ab"><div style="color:var(--ink)"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div><div class="t">সিঙ্ক</div></div>
+  <div class="bd sc">
+    <div class="card" style="text-align:center;padding:20px;background:#FBF6E9;border-color:#E3CFA4">
+      <div style="display:flex;justify-content:center;margin-bottom:9px;color:var(--warn)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a9 9 0 0114-2"/><path d="M20 17a9 9 0 01-14 2"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div>
+      <div class="amt lg wn">১৪টি এন্ট্রি</div>
+      <div class="sb" style="margin-top:4px">এখনো সিঙ্ক হয়নি — ইন্টারনেট এলে নিজেই হয়ে যাবে</div>
+    </div>
+    <div class="card" style="padding:0">
+      <div class="fr" style="padding:12px 14px;gap:10px"><span class="dot"></span><div class="fc" style="flex-grow:1"><div class="nm" style="font-size:14px">বিক্রি · জামাল হোসেন</div><div class="sb">৩:৫৫ pm</div></div><div class="amt sm">৳৮৪০</div></div>
+      <div class="fr" style="padding:12px 14px;gap:10px;border-top:1px solid var(--rule)"><span class="dot"></span><div class="fc" style="flex-grow:1"><div class="nm" style="font-size:14px">টাকা পেলাম · সালমা বেগম</div><div class="sb">৩:৪০ pm</div></div><div class="amt sm">৳২,০০০</div></div>
+      <div class="fr" style="padding:12px 14px;gap:10px;border-top:1px solid var(--rule)"><span class="dot"></span><div class="fc" style="flex-grow:1"><div class="nm" style="font-size:14px">খরচ · প্যাকেজিং</div><div class="sb">২:১০ pm</div></div><div class="amt sm">৳৪৫০</div></div>
+      <div class="fr" style="padding:12px 14px;gap:10px;border-top:1px solid var(--rule)"><div class="sb mu" style="flex-grow:1">আরও ১১টি</div></div>
+    </div>
+    <button class="btn s">এখনই চেষ্টা করুন</button>
+    <hr class="sep" style="margin:6px 0">
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <div class="fr"><div class="k" style="flex-grow:1">শেষবার সিঙ্ক</div><div style="font-size:14.5px;font-weight:600">আজ দুপুর ১:৫০</div></div>
+      <hr class="sep">
+      <div class="fr"><div class="k" style="flex-grow:1">ক্লাউডে জমা আছে</div><div style="font-size:14.5px;font-weight:600">১২ মাসের হিসাব</div></div>
+    </div>
+    <div class="tt" style="font-size:12.5px">ইন্টারনেট ছাড়াও সব কাজ চলবে — বিক্রি, টাকা, খরচ, রসিদ। কিছুই হারাবে না।</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

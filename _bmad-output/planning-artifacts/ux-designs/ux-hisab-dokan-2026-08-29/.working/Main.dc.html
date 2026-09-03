@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap">
+  <style>
+    :root{--paper:#FAF5EA;--paper2:#F1E7D3;--card:#FFFDF8;--ink:#2B2419;--mut:#7C6F5B;--rule:#E4D9C2;--acc:#1F5D46;--in:#1F5D46;--out:#9C4221;--warn:#8A6516}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+    a{color:#1F5D46;text-decoration:none} a:hover{color:#14402F}
+    .scr{width:390px;height:844px;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;position:relative}
+    .ab{height:58px;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--rule);background:var(--paper)}
+    .ab .t{font-family:'Noto Serif Bengali',Georgia,serif;font-size:18px;font-weight:600;letter-spacing:-.01em}
+    .ab .sp{flex-grow:1}
+    .bd{flex-grow:1;overflow:hidden;padding:16px;display:flex;flex-direction:column;gap:12px}
+    .bd.p0{padding:0}
+    .bd.sc{overflow-y:auto}
+    .card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px}
+    .card.q{background:var(--paper2);border-color:transparent}
+    .k{font-size:12px;color:var(--mut);font-weight:500;letter-spacing:.01em}
+    .amt{font-weight:700;letter-spacing:-.02em;line-height:1.1}
+    .xl{font-size:36px} .lg{font-size:26px} .md{font-size:19px} .sm{font-size:15px}
+    .in{color:var(--in)} .out{color:var(--out)} .wn{color:var(--warn)} .mu{color:var(--mut)}
+    .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+    .fc{display:flex;flex-direction:column}
+    .fr{display:flex;flex-direction:row;align-items:center}
+    .qa{background:var(--card);border:1px solid var(--rule);border-radius:14px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer}
+    .qa .ic{color:var(--acc)}
+    .nav{height:66px;flex-shrink:0;display:flex;border-top:1px solid var(--rule);background:var(--card)}
+    .ni{flex-grow:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:11px;color:var(--mut);font-weight:500;cursor:pointer}
+    .ni.on{color:var(--acc);font-weight:600}
+    .row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--rule)}
+    .av{width:38px;height:38px;border-radius:19px;background:var(--paper2);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;color:var(--acc);flex-shrink:0}
+    .nm{font-size:15px;font-weight:600;line-height:1.3}
+    .sb{font-size:12.5px;color:var(--mut);line-height:1.4}
+    .btn{width:100%;height:54px;border-radius:13px;background:var(--acc);color:#FFFDF8;font-family:inherit;font-size:16.5px;font-weight:600;border:none;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+    .btn.s{background:transparent;color:var(--acc);border:1.5px solid var(--acc)}
+    .btn.g{background:var(--paper2);color:var(--ink);border:none}
+    .chip{display:inline-flex;align-items:center;gap:5px;background:var(--paper2);font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;color:var(--ink)}
+    .chip.w{background:#F6EAD2;color:var(--warn)}
+    .fld{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:3px}
+    .fld .v{font-size:17px;font-weight:600}
+    .fld .v.ph{color:#B9AC94;font-weight:500}
+    .led{border-top:1px solid var(--rule)}
+    .lr{display:grid;grid-template-columns:52px 1fr 78px 82px;gap:6px;padding:11px 16px;border-bottom:1px solid var(--rule);font-size:13px;align-items:center}
+    .lr.h{background:var(--paper2);font-size:11px;font-weight:700;color:var(--mut);letter-spacing:.03em;text-transform:uppercase;border-bottom:1px solid var(--rule)}
+    .ta-r{text-align:right}
+    .hd{font-family:'Noto Serif Bengali',Georgia,serif;font-weight:600}
+    .ban{background:#F6EAD2;border:1px solid #E3CFA4;border-radius:12px;padding:10px 12px;font-size:13px;color:#6B4E10;display:flex;gap:9px;align-items:flex-start;line-height:1.45}
+    .ai{background:#EBF1EC;border:1px solid #C9DCCE;border-radius:14px;padding:14px}
+    .dot{width:7px;height:7px;border-radius:4px;background:var(--out);flex-shrink:0}
+    .sep{height:1px;background:var(--rule);border:none;margin:2px 0}
+    .tt{font-size:13.5px;line-height:1.55;color:var(--mut)}
+  </style>
+</helmet>
+<div class="scr">
+
+<sc-if value="{{isHome}}" hint-placeholder-val="{{true}}">
+<div class="fc" style="flex-grow:1;overflow:hidden">
+  <div class="ab">
+    <div class="fc">
+      <div class="k">শুভ সকাল</div>
+      <div class="t">রহমান গ্রোসারি</div>
+    </div>
+    <div class="sp"></div>
+    <div style="color:var(--mut)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></div>
+    <div style="color:var(--mut);position:relative"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6 9a6 6 0 1112 0c0 4 1.5 5 1.5 5h-15S6 13 6 9z"/><path d="M10.5 19a2 2 0 003 0"/></svg><span style="position:absolute;top:0;right:0;width:7px;height:7px;border-radius:4px;background:var(--out)"></span></div>
+  </div>
+
+  <div class="bd sc">
+    <div class="g2">
+      <div class="card"><div class="k">আজকের বিক্রি</div><div class="amt lg" style="margin-top:5px">৳২৪,৮৫০</div></div>
+      <div class="card"><div class="k">আজ পেয়েছি</div><div class="amt lg in" style="margin-top:5px">৳১৮,২০০</div></div>
+      <div class="card"><div class="k">আজকের খরচ</div><div class="amt lg out" style="margin-top:5px">৳৪,৩৫০</div></div>
+      <div class="card"><div class="k">আনুমানিক লাভ</div><div class="amt lg" style="margin-top:5px">৳৬,৩০০</div></div>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="fr" style="padding:13px 14px;gap:10px">
+        <div class="fc" style="flex-grow:1"><div class="k">আপনার কাছ থেকে পাবেন</div><div class="amt md in" style="margin-top:3px">৳৮৫,৪০০</div></div>
+        <div style="width:1px;height:38px;background:var(--rule)"></div>
+        <div class="fc" style="flex-grow:1"><div class="k">আপনাকে দিতে হবে</div><div class="amt md out" style="margin-top:3px">৳৪২,৩০০</div></div>
+      </div>
+    </div>
+
+    <div class="fc" style="gap:9px;margin-top:2px">
+      <div class="k" style="font-size:12.5px">দ্রুত কাজ</div>
+      <div class="g3">
+        <div class="qa" onClick="{{ goSale }}"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h2l2.4 10.4a2 2 0 002 1.6h7.7a2 2 0 002-1.55L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg></span>বিক্রি</div>
+        <div class="qa"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></span>টাকা পেলাম</div>
+        <div class="qa"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M18 13l-6 6-6-6"/></svg></span>টাকা দিলাম</div>
+        <div class="qa"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h9"/><circle cx="18.5" cy="18" r="2.5"/></svg></span>বাকি দিলাম</div>
+        <div class="qa"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg></span>খরচ</div>
+        <div class="qa"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="13" rx="2"/><path d="M3.5 11h17M12 11v9"/></svg></span>পণ্য যোগ</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:12px 14px">
+      <div class="fr" style="gap:8px;margin-bottom:9px"><span class="wn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.2v.1"/></svg></span><div class="k wn" style="font-weight:600">স্টক কমে যাচ্ছে · ৩</div></div>
+      <div class="fc" style="gap:7px">
+        <div class="fr"><div class="nm" style="flex-grow:1;font-weight:500;font-size:14px">চাল ২৫কেজি</div><div class="sb out" style="font-weight:600">২ বস্তা</div></div>
+        <div class="fr"><div class="nm" style="flex-grow:1;font-weight:500;font-size:14px">সয়াবিন তেল ৫লি</div><div class="sb out" style="font-weight:600">৪ লিটার</div></div>
+        <div class="fr"><div class="nm" style="flex-grow:1;font-weight:500;font-size:14px">চিনি ১কেজি</div><div class="sb wn" style="font-weight:600">৭ কেজি</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:12px 14px">
+      <div class="k" style="margin-bottom:9px">টাকার হিসাব · মোট ৳২,৭৯,৫০০</div>
+      <div class="fc" style="gap:7px">
+        <div class="fr"><div style="flex-grow:1;font-size:14px">নগদ</div><div class="amt sm">৳৮৫,০০০</div></div>
+        <div class="fr"><div style="flex-grow:1;font-size:14px">বিকাশ</div><div class="amt sm">৳৩২,৫০০</div></div>
+        <div class="fr"><div style="flex-grow:1;font-size:14px">নগদ (Nagad)</div><div class="amt sm">৳১২,০০০</div></div>
+        <div class="fr"><div style="flex-grow:1;font-size:14px">ব্যাংক</div><div class="amt sm">৳১,৫০,০০০</div></div>
+      </div>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+
+  <div class="nav">
+    <div class="ni on"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg>হোম</div>
+    <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a2 2 0 012 2v14H7a2 2 0 01-2-2z"/><path d="M9 8h6M9 12h6"/></svg>খাতা</div>
+    <div class="ni" style="position:relative"><div style="position:absolute;top:-26px;width:60px;height:60px;border-radius:30px;background:var(--acc);color:#FFFDF8;display:flex;align-items:center;justify-content:center;border:4px solid var(--paper);box-shadow:0 4px 14px rgba(31,93,70,.3)"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div></div>
+    <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg>আরও</div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isSale}}" hint-placeholder-val="{{false}}">
+<div class="fc" style="flex-grow:1;overflow:hidden">
+  <div class="ab">
+    <div onClick="{{ goHome }}" style="color:var(--ink);cursor:pointer"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <div class="t">নতুন বিক্রি</div>
+  </div>
+  <div class="bd sc">
+    <div class="fld"><div class="k">ক্রেতা</div><div class="fr" style="gap:8px"><div class="av" style="width:26px;height:26px;font-size:12px">র</div><div class="v" style="flex-grow:1">রহিম আহমেদ</div><div class="sb">বাকি ৳৩,৫০০</div></div></div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="fr" style="padding:11px 14px;background:var(--paper2)"><div class="k" style="flex-grow:1;font-weight:700">পণ্য</div><div class="k" style="font-weight:700">৩ টি</div></div>
+      <div class="fc">
+        <div class="fr" style="padding:12px 14px;border-top:1px solid var(--rule);gap:10px">
+          <div class="fc" style="flex-grow:1"><div class="nm">চাল ৫কেজি</div><div class="sb">২ বস্তা × ৳৩৫০</div></div>
+          <div class="amt sm">৳৭০০</div>
+        </div>
+        <div class="fr" style="padding:12px 14px;border-top:1px solid var(--rule);gap:10px">
+          <div class="fc" style="flex-grow:1"><div class="nm">সয়াবিন তেল ২লি</div><div class="sb">১ × ৳৩৮০</div></div>
+          <div class="amt sm">৳৩৮০</div>
+        </div>
+        <div class="fr" style="padding:12px 14px;border-top:1px solid var(--rule);gap:10px">
+          <div class="fc" style="flex-grow:1"><div class="nm">চিনি ১কেজি</div><div class="sb">২ কেজি × ৳১৪০</div></div>
+          <div class="amt sm">৳২৮০</div>
+        </div>
+      </div>
+      <div class="fr" style="padding:12px 14px;border-top:1px solid var(--rule);gap:8px;color:var(--acc);font-weight:600;font-size:14.5px;cursor:pointer">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>পণ্য যোগ করুন
+      </div>
+    </div>
+
+    <div class="fr" style="gap:10px">
+      <div class="fld" style="flex-grow:1"><div class="k">ছাড়</div><div class="v ph">৳০</div></div>
+      <div class="card q" style="flex-grow:1;display:flex;flex-direction:column;gap:2px"><div class="k">মোট</div><div class="amt md">৳১,৩৬০</div></div>
+    </div>
+  </div>
+  <div style="padding:14px 16px;border-top:1px solid var(--rule);background:var(--paper)">
+    <button class="btn" onClick="{{ goPay }}">পরবর্তী · টাকা</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isPay}}" hint-placeholder-val="{{false}}">
+<div class="fc" style="flex-grow:1;overflow:hidden">
+  <div class="ab">
+    <div onClick="{{ goSale }}" style="color:var(--ink);cursor:pointer"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <div class="t">টাকা</div>
+  </div>
+  <div class="bd">
+    <div class="card" style="text-align:center;padding:18px"><div class="k">মোট</div><div class="amt xl" style="margin-top:4px">৳১,৩৬০</div></div>
+
+    <div class="fld"><div class="k">কত টাকা দিল?</div><div class="v" style="font-size:26px;color:var(--acc)">৳৫০০</div></div>
+
+    <div class="fc" style="gap:8px">
+      <div class="k">কীভাবে</div>
+      <div class="g3">
+        <div class="chip" style="justify-content:center;padding:11px;background:var(--acc);color:#FFFDF8">নগদ</div>
+        <div class="chip" style="justify-content:center;padding:11px">বিকাশ</div>
+        <div class="chip" style="justify-content:center;padding:11px">Nagad</div>
+        <div class="chip" style="justify-content:center;padding:11px">রকেট</div>
+        <div class="chip" style="justify-content:center;padding:11px">ব্যাংক</div>
+        <div class="chip" style="justify-content:center;padding:11px">অন্যান্য</div>
+      </div>
+    </div>
+
+    <div class="card q" style="display:flex;flex-direction:column;gap:8px;margin-top:2px">
+      <div class="fr"><div style="flex-grow:1;font-size:14.5px">এই বিক্রিতে বাকি</div><div class="amt md out">৳৮৬০</div></div>
+      <hr class="sep">
+      <div class="fr"><div class="sb" style="flex-grow:1">রহিমের আগের বাকি</div><div class="sb">৳৩,৫০০</div></div>
+      <div class="fr"><div style="flex-grow:1;font-size:14.5px;font-weight:600">রহিমের নতুন বাকি</div><div class="amt md out">৳৪,৩৬০</div></div>
+    </div>
+  </div>
+  <div style="padding:14px 16px;border-top:1px solid var(--rule);background:var(--paper)">
+    <button class="btn" onClick="{{ goDone }}">সংরক্ষণ করুন</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isDone}}" hint-placeholder-val="{{false}}">
+<div class="fc" style="flex-grow:1;padding:24px 20px;justify-content:center;gap:18px">
+  <div style="display:flex;justify-content:center">
+    <div style="width:62px;height:62px;border-radius:31px;background:var(--acc);display:flex;align-items:center;justify-content:center;color:#FFFDF8"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+  </div>
+  <div class="fc" style="gap:5px;text-align:center">
+    <div class="hd" style="font-size:21px">বিক্রি সংরক্ষিত হয়েছে</div>
+    <div class="tt">রসিদ নং INV-000182</div>
+  </div>
+
+  <div class="card" style="display:flex;flex-direction:column;gap:9px">
+    <div class="fr"><div style="flex-grow:1;font-size:14.5px">মোট</div><div class="amt sm">৳১,৩৬০</div></div>
+    <div class="fr"><div style="flex-grow:1;font-size:14.5px">পেয়েছি (নগদ)</div><div class="amt sm in">৳৫০০</div></div>
+    <hr class="sep">
+    <div class="fr"><div style="flex-grow:1;font-size:15px;font-weight:600">রহিমের বাকি</div><div class="amt md out">৳৪,৩৬০</div></div>
+    <div class="sb">আগের বাকি ৳৩,৫০০ → বর্তমান ৳৪,৩৬০</div>
+  </div>
+
+  <div class="fc" style="gap:10px">
+    <button class="btn" onClick="{{ goReceipt }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="M8 8l4-4 4 4"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>রসিদ পাঠান</button>
+    <button class="btn g" onClick="{{ goHome }}">হোমে ফিরুন</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{isReceipt}}" hint-placeholder-val="{{false}}">
+<div class="fc" style="flex-grow:1;overflow:hidden">
+  <div class="ab">
+    <div onClick="{{ goDone }}" style="color:var(--ink);cursor:pointer"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
+    <div class="t">রসিদ</div>
+  </div>
+  <div class="bd sc" style="background:var(--paper2)">
+    <div style="background:#FFFEFA;border:1px solid var(--rule);border-radius:6px;padding:20px 18px;display:flex;flex-direction:column;gap:12px">
+      <div class="fc" style="text-align:center;gap:2px">
+        <div class="hd" style="font-size:19px">রহমান গ্রোসারি</div>
+        <div class="sb">মিরপুর ১০, ঢাকা</div>
+      </div>
+      <hr class="sep">
+      <div class="fr"><div class="sb" style="flex-grow:1">রসিদ নং INV-000182</div><div class="sb">২৩ আগস্ট ২০২৬</div></div>
+      <div class="fr"><div class="sb" style="flex-grow:1">ক্রেতা</div><div class="sb" style="font-weight:600;color:var(--ink)">রহিম আহমেদ</div></div>
+      <hr class="sep">
+      <div class="fc" style="gap:9px;font-size:13.5px">
+        <div class="fr"><div style="flex-grow:1">চাল ৫কেজি <span class="mu">২ × ৩৫০</span></div><div style="font-weight:600">৭০০</div></div>
+        <div class="fr"><div style="flex-grow:1">সয়াবিন তেল ২লি <span class="mu">১ × ৩৮০</span></div><div style="font-weight:600">৩৮০</div></div>
+        <div class="fr"><div style="flex-grow:1">চিনি ১কেজি <span class="mu">২ × ১৪০</span></div><div style="font-weight:600">২৮০</div></div>
+      </div>
+      <hr class="sep">
+      <div class="fc" style="gap:7px">
+        <div class="fr"><div style="flex-grow:1;font-size:14px">মোট</div><div class="amt sm">৳১,৩৬০</div></div>
+        <div class="fr"><div style="flex-grow:1;font-size:14px">জমা</div><div class="amt sm">৳৫০০</div></div>
+        <div class="fr"><div style="flex-grow:1;font-size:15px;font-weight:700">বাকি</div><div class="amt md out">৳৮৬০</div></div>
+      </div>
+      <hr class="sep">
+      <div class="fr" style="justify-content:space-between"><div class="sb">মোট বাকি</div><div class="sb" style="font-weight:700;color:var(--out)">৳৪,৩৬০</div></div>
+      <div class="sb" style="text-align:center;margin-top:4px">ধন্যবাদ</div>
+    </div>
+  </div>
+  <div style="padding:14px 16px;border-top:1px solid var(--rule);background:var(--paper);display:flex;gap:10px">
+    <button class="btn s" style="flex-grow:1">PDF</button>
+    <button class="btn" style="flex-grow:2">WhatsApp-এ পাঠান</button>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props){ super(props); this.state = { step: 'home' }; }
+  renderVals(){
+    const go = (s) => () => this.setState({ step: s });
+    const st = this.state.step;
+    return {
+      isHome: st === 'home', isSale: st === 'sale', isPay: st === 'pay',
+      isDone: st === 'done', isReceipt: st === 'receipt',
+      goHome: go('home'), goSale: go('sale'), goPay: go('pay'),
+      goDone: go('done'), goReceipt: go('receipt')
+    };
+  }
+}
+</script>
+</body>
+</html>

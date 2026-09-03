@@ -1,0 +1,19 @@
+{
+  "name": "hisab",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Bangla-first business management for Bangladesh's small shops",
+  "engines": { "node": ">=22.23.2 <23" },
+  "workspaces": ["packages/*", "apps/api", "apps/admin"],
+  "scripts": {
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "eslint": "10.9.1",
+    "prettier": "3.9.6",
+    "typescript": "7.0.2"
+  }
+}

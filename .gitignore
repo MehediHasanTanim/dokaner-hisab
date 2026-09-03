@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+.pnp/
+# builds
+dist/
+build/
+.next/
+out/
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ruff_cache/
+.pytest_cache/
+# flutter / dart
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/.flutter-plugins*
+apps/mobile/ios/Pods/
+apps/mobile/android/.gradle/
+# env — never commit real credentials (AR-26: every environment has its own)
+.env
+.env.*
+!.env.example
+# editors / os
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+# logs
+*.log
+npm-debug.log*

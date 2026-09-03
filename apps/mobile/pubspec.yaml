@@ -1,0 +1,50 @@
+name: hisab
+description: Bangla-first business management for Bangladesh's small shops.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  # SDK pinned to the Flutter release Tanim has installed (3.47.2), confirmed 03-09-2026.
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '3.47.2'
+
+# ── Dependencies are DELIBERATELY UNPINNED HERE ──────────────────────────────
+# Story 1.1 requires every version to be checked against the live registry.
+# pub.dev is unreachable from the environment this file was generated in, so
+# writing versions here would be a guess — exactly what this story exists to
+# prevent. Run `scripts/bootstrap.sh` on a machine with Flutter installed: it
+# calls `flutter pub add`, which resolves against pub.dev and writes exact
+# versions into this file and into pubspec.lock. Commit both.
+#
+# Until that is done, Story 1.1 is NOT complete.
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  # UX-DR3 — Bangla conjuncts do not render reliably from system fonts, on
+  # screen or in generated PDFs. Both faces ship as bundled assets.
+  # Add the .ttf files under assets/fonts/ before enabling this block.
+  # fonts:
+  #   - family: NotoSerifBengali
+  #     fonts:
+  #       - asset: assets/fonts/NotoSerifBengali-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/NotoSerifBengali-Bold.ttf
+  #         weight: 700
+  #   - family: HindSiliguri
+  #     fonts:
+  #       - asset: assets/fonts/HindSiliguri-Regular.ttf
+  #         weight: 400
+  #       - asset: assets/fonts/HindSiliguri-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/HindSiliguri-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/HindSiliguri-Bold.ttf
+  #         weight: 700

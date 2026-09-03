@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    name: api · admin · contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+
+  python:
+    name: ai
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt -e ".[dev]"
+      - run: ruff check .
+      - run: pytest -q
+
+  flutter:
+    name: mobile
+    runs-on: ubuntu-latest
+    # Enabled once apps/mobile is scaffolded on a machine with Flutter —
+    # see apps/mobile/README.md. Story 1.1 is not complete until this runs.
+    if: ${{ hashFiles('apps/mobile/pubspec.lock') != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.2'
+      - run: flutter pub get
+        working-directory: apps/mobile
+      - run: flutter analyze
+        working-directory: apps/mobile
+      - run: flutter test
+        working-directory: apps/mobile

@@ -1,0 +1,433 @@
+{
+ "artboards": [
+  {
+   "file": "Splash.dc.html",
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Login.dc.html",
+   "x": 500,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SetupBusiness.dc.html",
+   "x": 1000,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SetupBalances.dc.html",
+   "x": 1500,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Main.dc.html",
+   "x": 2000,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1",
+   "is_interactive": true,
+   "title": "Main — বিক্রির প্রবাহ (চাপ দিন)"
+  },
+  {
+   "file": "BakiDilam.dc.html",
+   "x": 2500,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "TakaPelam.dc.html",
+   "x": 0,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "TakaDilam.dc.html",
+   "x": 500,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "CustomerList.dc.html",
+   "x": 1000,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "CustomerDetail.dc.html",
+   "x": 1500,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "CustomerLedger.dc.html",
+   "x": 2000,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "DueReminders.dc.html",
+   "x": 2500,
+   "y": 1034,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ReminderDraft.dc.html",
+   "x": 0,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SupplierLedger.dc.html",
+   "x": 500,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SalesList.dc.html",
+   "x": 1000,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SaleDetail.dc.html",
+   "x": 1500,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SalesReturn.dc.html",
+   "x": 2000,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "PurchaseList.dc.html",
+   "x": 2500,
+   "y": 2068,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "NewPurchase.dc.html",
+   "x": 0,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ProductList.dc.html",
+   "x": 500,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ProductDetail.dc.html",
+   "x": 1000,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AddProduct.dc.html",
+   "x": 1500,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Inventory.dc.html",
+   "x": 2000,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ImportCatalogue.dc.html",
+   "x": 2500,
+   "y": 3102,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ExpenseList.dc.html",
+   "x": 0,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AddExpense.dc.html",
+   "x": 500,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "MoneyAccounts.dc.html",
+   "x": 1000,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AccountTransfer.dc.html",
+   "x": 1500,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "DailySummary.dc.html",
+   "x": 2000,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "ProfitReport.dc.html",
+   "x": 2500,
+   "y": 4136,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Reports.dc.html",
+   "x": 0,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Search.dc.html",
+   "x": 500,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AIEntry.dc.html",
+   "x": 1000,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AIDraft.dc.html",
+   "x": 1500,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AIDisambiguate.dc.html",
+   "x": 2000,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "AskHisab.dc.html",
+   "x": 2500,
+   "y": 5170,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "SyncOffline.dc.html",
+   "x": 0,
+   "y": 6204,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Settings.dc.html",
+   "x": 500,
+   "y": 6204,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "Subscription.dc.html",
+   "x": 1000,
+   "y": 6204,
+   "w": 390,
+   "h": 844,
+   "page": "page-1"
+  },
+  {
+   "file": "NavOptionA.dc.html",
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-2",
+   "title": "বিকল্প ক — ৫ ট্যাব (rejected)"
+  },
+  {
+   "file": "NavOptionB.dc.html",
+   "x": 550,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "page": "page-2",
+   "title": "বিকল্প খ — CHOSEN"
+  },
+  {
+   "file": "DesignSystem.dc.html",
+   "x": 0,
+   "y": 0,
+   "w": 1000,
+   "h": 2000,
+   "page": "page-3"
+  },
+  {
+   "file": "AppIcon.dc.html",
+   "x": 0,
+   "y": 0,
+   "w": 1180,
+   "h": 1420,
+   "page": "page-4",
+   "title": "App icon — খাতা chosen"
+  },
+  {
+   "file": "AppIconSpecs.dc.html",
+   "x": 1300,
+   "y": 0,
+   "w": 1000,
+   "h": 900,
+   "page": "page-4"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "n-flow",
+   "x": 0,
+   "y": -150,
+   "w": 760,
+   "page": "page-1",
+   "text": "হিসাব — every MVP screen.\n\nRow 1 first run · Row 2 the money-in-seconds flows · Rows 3-4 ledgers, sales, purchases · Rows 5-6 products, expenses, reports · Row 7 AI and system.\n\nNavigation is বিকল্প খ as decided: হোম | খাতা | ⊕ | আরও. বিক্রি and পণ্য are pushed screens now and carry a back arrow.\n\nThe Main artboard is the only clickable one: tap বিক্রি to walk Home → New Sale → payment → saved → receipt."
+  },
+  {
+   "id": "n-nonav",
+   "x": 880,
+   "y": -150,
+   "w": 330,
+   "page": "page-1",
+   "text": "Supplier list and detail are exact mirrors of the customer ones and were merged into a single SupplierLedger artboard — the only screens not drawn separately."
+  },
+  {
+   "id": "n-navA",
+   "x": 0,
+   "y": -230,
+   "w": 390,
+   "page": "page-2",
+   "text": "বিকল্প ক — five tabs. REJECTED 2026-08-29.\n\nKept as the record of what was weighed, not as a live option. Every area had a permanent home and nothing hid behind আরও — but five Bangla labels at 11px was the tightest type in the product and the first thing to break at large accessibility sizes, and the six quick actions lived only on হোম."
+  },
+  {
+   "id": "n-navB",
+   "x": 550,
+   "y": -230,
+   "w": 390,
+   "page": "page-2",
+   "text": "বিকল্প খ — three tabs and a centre action button. CHOSEN 2026-08-29.\n\nRecording is the app's job, so it gets the biggest target on screen, reachable from every tab. হোম, খাতা and আরও breathe where five labels did not. This is what SM-2 — a saved sale in under 20 seconds — actually turns on.\n\nAccepted cost: বিক্রি, পণ্য and রিপোর্ট are no longer tab roots. They are pushed screens under আরও, one tap deeper, and their artboards now carry a back arrow.\n\nUntested and worth testing: whether a shop owner reads the raised button as 'record something'. No document can answer that."
+  },
+  {
+   "id": "n-ds",
+   "x": 1080,
+   "y": 0,
+   "w": 320,
+   "page": "page-3",
+   "text": "DESIGN.md is the written spine; this artboard is its visual counterpart. Where they disagree, DESIGN.md wins."
+  },
+  {
+   "id": "n-icon",
+   "x": 0,
+   "y": -190,
+   "w": 740,
+   "page": "page-4",
+   "text": "App icon — খাতা (the ledger) CHOSEN 2026-08-29.\n\nThe spine band is what earned it: it gives the silhouette an asymmetry that survives circular, squircle and square masking, so it never collapses into a plain rounded square the way a centred symbol does.\n\nThe other three stay for the record. Accepted cost: a book is the most crowded metaphor on any app store — worth one look on a real home screen beside a notes app before the first store build.\n\nStill to do, on the specs artboard: trace to outlines (no shipped icon depends on a webfont), two builds for the 66dp Android safe zone and the opaque iOS square."
+  }
+ ],
+ "pages": [
+  {
+   "id": "page-1",
+   "name": "পর্দা · Screens"
+  },
+  {
+   "id": "page-2",
+   "name": "Navigation A/B"
+  },
+  {
+   "id": "page-3",
+   "name": "Design system"
+  },
+  {
+   "id": "page-4",
+   "name": "App icon"
+  }
+ ],
+ "launch": {
+  "view": "canvas",
+  "page": "page-1"
+ }
+}

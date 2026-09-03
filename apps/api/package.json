@@ -1,0 +1,43 @@
+{
+  "name": "@hisab/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@hisab/contracts": "*",
+    "@nestjs/common": "12.0.1",
+    "@nestjs/config": "12.0.0",
+    "@nestjs/core": "12.0.1",
+    "@nestjs/jwt": "12.0.1",
+    "@nestjs/platform-fastify": "12.0.1",
+    "@nestjs/swagger": "12.0.1",
+    "@prisma/client": "7.10.0",
+    "bullmq": "6.3.4",
+    "class-validator": "0.15.1",
+    "fastify": "5.12.1",
+    "ioredis": "6.0.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "uuid": "14.0.2",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "12.0.1",
+    "@nestjs/testing": "12.0.1",
+    "@types/node": "26.4.1",
+    "@types/supertest": "7.2.1",
+    "prisma": "7.10.0",
+    "supertest": "7.2.2",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  }
+}

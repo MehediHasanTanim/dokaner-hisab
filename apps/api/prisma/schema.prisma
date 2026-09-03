@@ -1,0 +1,22 @@
+// Hisab — server schema.
+//
+// Deliberately empty of models. Story 1.1 stands up the toolchain only;
+// tables are created by the story that needs them (Story 1.4 brings User,
+// Business, MoneyAccount and MoneyMovement). Creating the whole schema
+// upfront is explicitly not how this project works.
+//
+// Conventions every future model must follow:
+//   AR-1  monetary columns are BigInt paisa, named `…Paisa`
+//   AR-2  quantity columns are BigInt milli-units, named `…Milli`
+//   AR-3  primary keys are client-minted UUIDv7 (String @id) — no serverId
+//   AR-9  every model is classified financial (append-only) or reference
+//   AR-14 timestamps stored UTC, plus a `businessDate` derived once at creation
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
