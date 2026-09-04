@@ -154,6 +154,29 @@ registry query — the one pin in this file not verified against its own registr
 The plugin states AGP 8.11.1 as its floor. This project is on AGP 9.1.0,
 Gradle 9.3.1, Kotlin 2.4.0, Java 17.
 
+## Android compileSdk — pinned to 37, added 04-09-2026
+
+`flutter_secure_storage` 11.x publishes AAR metadata requiring API 37. Flutter
+3.47.2's `flutter.compileSdkVersion` is 36, so `:app:checkDebugAarMetadata`
+rejects the build. `apps/mobile/android/app/build.gradle.kts` therefore sets
+`compileSdk = 37` explicitly rather than taking Flutter's value.
+
+Why this is safe: `compileSdk` decides only which APIs the code may reference
+and is backward compatible. `targetSdk` (which opts the app into new runtime
+behaviour) and `minSdk` (which decides device reach — the thing that matters for
+low-end Android phones in Bangladesh) still come from Flutter and are untouched.
+Those two are the ones that need a deliberate review before moving.
+
+Why the package is not simply pinned down instead: AD-17 keeps the SQLCipher key
+in the platform keystore, and `flutter_secure_storage` is what reaches it. It is
+load-bearing for the encrypted local ledger, not a convenience.
+
+AGP 9.1.0 warns that its maximum *recommended* `compileSdk` is 36. The warning is
+advisory — AGP builds against 37 — so it is suppressed in `gradle.properties` via
+`android.suppressUnsupportedCompileSdk=37`. A permanent warning on every build is
+worse than none: it teaches the team to skim past build output. Revisit when AGP
+supports 37 outright.
+
 ## Not verified — outstanding
 
 `desugar_jdk_libs:2.1.4` — taken from the plugin README, not from Maven

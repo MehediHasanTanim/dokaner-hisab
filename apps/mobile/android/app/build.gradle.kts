@@ -6,7 +6,15 @@ plugins {
 
 android {
     namespace = "com.hisabdokan.dokanerhisab"
-    compileSdk = flutter.compileSdkVersion
+    // Deliberately pinned above flutter.compileSdkVersion (36). flutter_secure_storage
+    // publishes AAR metadata requiring API 37, and it is load-bearing: AD-17 keeps the
+    // SQLCipher key in the platform keystore, which is what makes the encrypted local
+    // ledger meaningful. compileSdk only decides which APIs the code may reference and
+    // is backward compatible — targetSdk (runtime behaviour) and minSdk (device reach)
+    // are set from Flutter's values below and are unaffected.
+    // AGP 9.1.0 warns that 36 is its maximum *recommended* compileSdk; the warning is
+    // suppressed in gradle.properties. Revisit when AGP catches up to 37.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
