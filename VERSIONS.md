@@ -123,7 +123,39 @@ pulled transitively by `riverpod_generator` 4.0.8. It is build-time only, so it
 never ships in the app — a materially smaller risk than the Prisma RC, but
 worth knowing before someone is surprised by a codegen change.
 
+## Android build — desugaring, added 04-09-2026
+
+The first `flutter run` failed before any Dart executed:
+
+```
+Dependency ':flutter_local_notifications' requires core library desugaring
+to be enabled for :app.
+```
+
+This is not a version conflict. `flutter_local_notifications` calls `java.time`
+APIs that do not exist on older Android runtimes, and asks the build to rewrite
+them at compile time. AGP refuses the AAR unless the app opts in, so the fix is
+in `apps/mobile/android/app/build.gradle.kts`, not in `pubspec.yaml`:
+
+- `compileOptions { isCoreLibraryDesugaringEnabled = true }`
+- `coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")`
+
+**2.1.4 is deliberate.** It is the exact version the plugin's own README pins,
+so it is the version its authors test against. 2.1.5 exists (2025-02, adds
+`Stream.toList()` and a Chinese-locale week-name fix — neither relevant here)
+but carries no benefit for this app and no evidence of being tested with the
+plugin. A desugar/plugin mismatch does not fail the build; it fails as a
+`NoSuchMethodError` on an old device in the field, which is exactly the class
+of defect this project is trying not to ship. Maven Central and dl.google.com
+are both blocked by the build environment's egress policy, so this version came
+from the plugin README and the desugar_jdk_libs changelog rather than from a
+registry query — the one pin in this file not verified against its own registry.
+
+The plugin states AGP 8.11.1 as its floor. This project is on AGP 9.1.0,
+Gradle 9.3.1, Kotlin 2.4.0, Java 17.
+
 ## Not verified — outstanding
 
-Nothing. Every dependency in every app is now pinned to a version resolved
-against its live registry, and every lockfile is committed.
+`desugar_jdk_libs:2.1.4` — taken from the plugin README, not from Maven
+Central, which the build environment cannot reach. Everything else is pinned to
+a version resolved against its live registry, with every lockfile committed.

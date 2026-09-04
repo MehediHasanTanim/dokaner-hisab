@@ -12,6 +12,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+
+        // Required by flutter_local_notifications: it uses java.time APIs that do
+        // not exist on older Android runtimes, so the build must rewrite them.
+        // Without this the AAR metadata check fails outright — it is not optional.
+        isCoreLibraryDesugaringEnabled = true
     }
 
     defaultConfig {
@@ -42,6 +47,16 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
+}
+
+dependencies {
+    // Version 2.1.4 is the one flutter_local_notifications documents and tests
+    // against (its README pins exactly this). Do not bump it casually: the
+    // desugaring library is coupled to the plugin's own expectations, and a
+    // mismatch surfaces as a runtime NoSuchMethodError on old devices rather
+    // than a build failure. AGP here is 9.1.0, well past the plugin's stated
+    // 8.11.1 floor.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 flutter {
