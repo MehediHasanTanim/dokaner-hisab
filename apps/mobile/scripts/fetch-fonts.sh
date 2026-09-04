@@ -67,7 +67,10 @@ python3 -c 'import fontTools' 2>/dev/null || {
 # fetch <url> <path> -- fail on 404 rather than writing an HTML error page as a font.
 fetch() {
   echo "  GET $1"
-  curl -fsSL --retry 3 --retry-delay 2 -o "$2" "$1" || {
+  # -g (--globoff) is load-bearing: the variable font is literally called
+  # "NotoSerifBengali[wdth,wght].ttf", and without it curl reads [wdth,wght] as
+  # a glob range and refuses the URL.
+  curl -fgsSL --retry 3 --retry-delay 2 -o "$2" "$1" || {
     echo "error: could not fetch $1" >&2
     echo "       If google/fonts moved the file, fix the path in this script." >&2
     echo "       Never substitute a different face — the metrics are part of the design." >&2
@@ -95,7 +98,7 @@ done
 echo "Noto Serif Bengali (600 / 700):"
 noto_statics_found=1
 for f in $NOTO_FILES; do
-  if curl -fsSL --retry 2 -o "$DEST/$f" "$BASE/$NOTO_DIR/static/$f" 2>/dev/null; then
+  if curl -fgsSL --retry 2 -o "$DEST/$f" "$BASE/$NOTO_DIR/static/$f" 2>/dev/null; then
     echo "  GET $BASE/$NOTO_DIR/static/$f"
     record_source "$f" "$BASE/$NOTO_DIR/static/$f"
   else
