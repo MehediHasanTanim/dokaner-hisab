@@ -1,44 +1,76 @@
 # apps/mobile
 
-The Flutter client. **This app is not fully scaffolded yet** — see below.
+The Flutter client for Hisab.
 
-## Story 1.1 status: incomplete for this app
+## Before your first build: fetch the fonts
 
-Story 1.1 requires every dependency pinned to a version verified against the
-live registry. The environment that generated this workspace could not reach
-`pub.dev` and had no Flutter toolchain, so no Dart package version has been
-written. Guessing them would have violated the acceptance criterion the story
-exists to enforce.
+The two Bangla faces are **bundled assets, not a dependency**. Bangla conjuncts
+do not render reliably from system fonts on either platform, and the same faces
+have to render inside a generated PDF receipt (UX-DR3), so the app never
+downloads a font and never falls back to a system one.
 
-The Flutter SDK version **3.47.2** is pinned in `pubspec.yaml`, supplied by
-Tanim from the installed toolchain on 03-09-2026.
-
-## To finish it
-
-On a machine with Flutter 3.47.2 installed:
+The `.ttf` files are fetched once and committed:
 
 ```bash
 cd apps/mobile
-flutter create . --project-name hisab --org com.hisab --platforms=android,ios
-./scripts/bootstrap.sh
+./scripts/fetch-fonts.sh          # needs curl and `pip install fonttools`
 ```
 
-`flutter create` generates the `android/`, `ios/`, `lib/` and `test/`
-scaffolding into this directory without overwriting `pubspec.yaml`'s
-dependency block if it already resolved. `bootstrap.sh` then resolves every
-package against pub.dev and writes exact versions into `pubspec.yaml` and
-`pubspec.lock`.
+That writes six faces, two OFL licence texts and a regenerated `MANIFEST.txt`
+into `assets/fonts/`. Commit all of them. Until you do, the build fails on
+purpose — CI checks for the six files before it does anything else, because a
+silently substituted face is a tofu box in a shop owner's hand.
 
-**Commit both files.** From that point the lockfile is the authority, and
-Story 1.1's remaining acceptance criterion is met.
+## Then
 
-## Then set up the source tree
+```bash
+flutter pub get
+dart run tool/check_theme_tokens.dart   # no style literals outside lib/theme/
+flutter analyze
+flutter test
+flutter run                              # the theme preview screen
+```
+
+The golden image used by `test/theme/bangla_rendering_test.dart` is not in the
+repository yet. Generate it once, **look at it** — formed conjuncts, no dotted
+circles, no tofu — and commit it:
+
+```bash
+flutter test --update-goldens test/theme/bangla_rendering_test.dart
+```
+
+## Versions
+
+Flutter **3.47.2** (Dart 3.13.2), pinned in `pubspec.yaml` and in
+`.github/workflows/ci.yml`. Every package version was resolved against pub.dev
+by `scripts/bootstrap.sh` and is locked in `pubspec.lock`. **The lockfile is the
+authority**: add a package with `flutter pub add`, never by hand.
+
+## The theme is the only source of style
+
+`lib/theme/` holds the design system and is the only place in the app allowed to
+write a colour, a font size or a radius:
+
+- `tokens.dart` — every value transcribed from `DESIGN.md`. One flat file to
+  diff against the design document. No `ThemeData`, no widgets.
+- `hisab_theme.dart` — Material 3 with only the documented delta overridden, and
+  the named text styles. M3 keeps supplying anatomy, states and accessibility
+  behaviour.
+- `theme_preview.dart` — a development-only screen. Scaffolding, not product.
+
+Everywhere else, style comes from `Theme.of(context)` or from a named token.
+`dart run tool/check_theme_tokens.dart` fails the build on a literal `Color(0x`,
+`Colors.`, `fontSize:`, `BorderRadius.circular(` or `Radius.circular(` under
+`lib/` outside `lib/theme/`, naming the file and line.
+
+## Source tree
 
 Feature-first clean architecture, per the architecture spine:
 
 ```
 lib/
-  core/            # db (Drift + SQLCipher), sync, theme, formatting, errors
+  theme/           # design tokens and the Material 3 theme
+  core/            # db (Drift + SQLCipher), sync, formatting, errors
   features/
     <feature>/
       presentation/  # widgets, screens — never touches the database

@@ -11,15 +11,15 @@ environment:
   sdk: '>=3.13.0 <4.0.0'
   flutter: '3.47.2'
 
-# ── Dependencies are DELIBERATELY UNPINNED HERE ──────────────────────────────
-# Story 1.1 requires every version to be checked against the live registry.
-# pub.dev is unreachable from the environment this file was generated in, so
-# writing versions here would be a guess — exactly what this story exists to
-# prevent. Run `scripts/bootstrap.sh` on a machine with Flutter installed: it
-# calls `flutter pub add`, which resolves against pub.dev and writes exact
-# versions into this file and into pubspec.lock. Commit both.
+# ── Dependencies are RESOLVED AND LOCKED ─────────────────────────────────────
+# Story 1.1 required every version to be checked against the live registry.
+# `scripts/bootstrap.sh` did that with `flutter pub add`, and pubspec.lock is
+# committed beside this file. From here on THE LOCKFILE IS THE AUTHORITY: add a
+# package with `flutter pub add`, never by typing a version in by hand.
 #
-# Until that is done, Story 1.1 is NOT complete.
+# Story 1.2 adds no package. `intl`, `pdf` and `printing` were already resolved
+# here, and the two Bangla faces ship as assets rather than as a dependency —
+# see the `fonts:` block at the foot of this file.
 
 dependencies:
   connectivity_plus: ^7.3.1
@@ -68,23 +68,36 @@ hooks:
 
 flutter:
   uses-material-design: true
+
   # UX-DR3 — Bangla conjuncts do not render reliably from system fonts, on
-  # screen or in generated PDFs. Both faces ship as bundled assets.
-  # Add the .ttf files under assets/fonts/ before enabling this block.
-  # fonts:
-  #   - family: NotoSerifBengali
-  #     fonts:
-  #       - asset: assets/fonts/NotoSerifBengali-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/NotoSerifBengali-Bold.ttf
-  #         weight: 700
-  #   - family: HindSiliguri
-  #     fonts:
-  #       - asset: assets/fonts/HindSiliguri-Regular.ttf
-  #         weight: 400
-  #       - asset: assets/fonts/HindSiliguri-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/HindSiliguri-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/HindSiliguri-Bold.ttf
-  #         weight: 700
+  # screen or in generated PDFs, and the same faces have to render inside a
+  # receipt. Both families ship as bundled assets. There is no `google_fonts`
+  # dependency and no runtime download anywhere in this app: it renders
+  # correctly with no connection, which is the condition it is built for.
+  #
+  # The .ttf files are fetched once per checkout by `./scripts/fetch-fonts.sh`
+  # and committed. CI fails loudly when they are absent rather than letting the
+  # build fall back to a system face — a silent substitution is a tofu box in a
+  # shop owner's hand. Filenames are fixed: they are declared literally below.
+  assets:
+    - assets/fonts/
+
+  fonts:
+    # Ledger headings, screen titles, receipts. Never body copy, never below 17px.
+    - family: NotoSerifBengali
+      fonts:
+        - asset: assets/fonts/NotoSerifBengali-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NotoSerifBengali-Bold.ttf
+          weight: 700
+    # Everything else, including every number, always with tabular figures.
+    - family: HindSiliguri
+      fonts:
+        - asset: assets/fonts/HindSiliguri-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/HindSiliguri-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/HindSiliguri-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/HindSiliguri-Bold.ttf
+          weight: 700

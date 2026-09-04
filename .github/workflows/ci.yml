@@ -43,18 +43,52 @@ jobs:
   flutter:
     name: mobile
     runs-on: ubuntu-latest
-    # Enabled once apps/mobile is scaffolded on a machine with Flutter —
-    # see apps/mobile/README.md. Story 1.1 is not complete until this runs.
     if: ${{ hashFiles('apps/mobile/pubspec.lock') != '' }}
+    defaults:
+      run:
+        working-directory: apps/mobile
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.47.2'   # bundles Dart 3.13.2 — keep in step with apps/mobile/pubspec.yaml
           channel: stable
+
+      # UX-DR3 — the Bangla faces are bundled assets, fetched once by
+      # scripts/fetch-fonts.sh and committed. CI never downloads a font. If the
+      # files are not here the build stops now, loudly, rather than producing an
+      # app that silently substitutes a system face and shows tofu boxes.
+      - name: Bundled Bangla fonts are present
+        run: |
+          missing=0
+          for f in \
+            NotoSerifBengali-SemiBold.ttf \
+            NotoSerifBengali-Bold.ttf \
+            HindSiliguri-Regular.ttf \
+            HindSiliguri-Medium.ttf \
+            HindSiliguri-SemiBold.ttf \
+            HindSiliguri-Bold.ttf
+          do
+            if [ ! -s "assets/fonts/$f" ]; then
+              echo "::error::assets/fonts/$f is missing or empty"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "Run 'cd apps/mobile && ./scripts/fetch-fonts.sh' on a machine"
+            echo "with a network connection and commit the .ttf files, the two"
+            echo "OFL licences and MANIFEST.txt."
+            exit 1
+          fi
+          echo "All six faces present:"
+          ls -l assets/fonts
+
       - run: flutter pub get
-        working-directory: apps/mobile
+
+      # UX-DR1 — the theme is the only source of colour, type, radius and
+      # spacing. A literal in a widget is blocked here, not in review.
+      - name: No style literals outside lib/theme/
+        run: dart run tool/check_theme_tokens.dart
+
       - run: flutter analyze
-        working-directory: apps/mobile
       - run: flutter test
-        working-directory: apps/mobile

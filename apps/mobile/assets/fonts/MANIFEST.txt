@@ -1,0 +1,39 @@
+Hisab — bundled font provenance
+
+    NOT YET FETCHED.
+
+This file is the placeholder committed with the source tree. Running
+`./scripts/fetch-fonts.sh` on a machine with a network connection overwrites it
+with the real record: source URL, sha256 and byte count for every face.
+
+Why the binaries are not in this commit: the environment that wrote this story
+had no route to raw.githubusercontent.com, and a font guessed from memory is a
+tofu box in a shop owner's hand. CI fails loudly when the .ttf files are absent
+rather than letting the build fall back to a system face (UX-DR3).
+
+Expected contents of assets/fonts/ once the script has run
+-----------------------------------------------------------------------------
+  HindSiliguri-Regular.ttf         400  UI text and every numeral
+  HindSiliguri-Medium.ttf          500  labels
+  HindSiliguri-SemiBold.ttf        600  amounts, button labels
+  HindSiliguri-Bold.ttf            700  the amount ramp
+  NotoSerifBengali-SemiBold.ttf    600  screen titles, ledger headings
+  NotoSerifBengali-Bold.ttf        700  receipts
+  OFL-HindSiliguri.txt                  SIL Open Font License 1.1
+  OFL-NotoSerifBengali.txt              SIL Open Font License 1.1
+  MANIFEST.txt                          this file, regenerated
+
+Sources
+-----------------------------------------------------------------------------
+  Hind Siliguri        github.com/google/fonts  ofl/hindsiliguri/
+                       shipped upstream as static instances.
+  Noto Serif Bengali   github.com/google/fonts  ofl/notoserifbengali/
+                       shipped upstream as a variable face; the script instances
+                       it to wght=600 and wght=700 at wdth=100 with fonttools,
+                       because pubspec.yaml can only declare fixed filenames.
+
+Licence
+-----------------------------------------------------------------------------
+  Both families: SIL Open Font License, Version 1.1. Redistribution requires the
+  licence text to travel with the binaries, which is why the two OFL files are
+  bundled as assets rather than kept beside the repo.
