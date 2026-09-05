@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 09-03-2026 01:59
-last_updated: 09-04-2026 15:30
+last_updated: 09-05-2026 11:00
 project: hisab-dokan
 project_key: NOKEY
 tracking_system: file-system
@@ -38,7 +38,7 @@ development_status:
   epic-1: in-progress
   1-1-stand-up-the-workspace-and-pin-the-stack: done
   1-2-make-the-app-look-like-hisab: review
-  1-3-show-numbers-the-way-the-owner-reads-them: backlog
+  1-3-show-numbers-the-way-the-owner-reads-them: review
   1-4-keep-the-shop-s-data-safe-on-the-phone: backlog
   1-5-sign-in-with-my-phone-number: backlog
   1-6-stay-signed-in-and-sign-out-safely: backlog

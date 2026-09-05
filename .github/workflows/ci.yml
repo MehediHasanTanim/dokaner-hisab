@@ -90,5 +90,13 @@ jobs:
       - name: No style literals outside lib/theme/
         run: dart run tool/check_theme_tokens.dart
 
+      # UX-DR4 — one formatter and one parser for the whole product. Screens,
+      # receipts, reports, CSV export, notifications and the AI draft parser all
+      # render the identical stored integer through lib/format/. A second
+      # implementation is how a receipt comes to disagree with a screen, and it
+      # is blocked here, not in review.
+      - name: No second number formatter outside lib/format/
+        run: dart run tool/check_single_formatter.dart
+
       - run: flutter analyze
       - run: flutter test

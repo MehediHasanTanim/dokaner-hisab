@@ -7,14 +7,22 @@
 //
 //   * making the tokens visible on a real phone, in daylight, at arm's length,
 //     which is the condition every decision in DESIGN.md is made against;
+//   * showing one stored integer rendered in both languages, which is the only
+//     way to see on a device that a value never changes when its script does;
 //   * giving test/theme/accessibility_test.dart something real to render at the
 //     largest system font size on a 5-inch viewport.
+//
+// Every figure on this screen comes from `lib/format/`. There is not one
+// hand-written ৳ or Bangla numeral left in it, and
+// `tool/check_single_formatter.dart` keeps it that way.
 //
 // Every string on it is Bangla, because there is no such thing as an
 // English-only surface in this product.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../format/format.dart';
 import 'hisab_theme.dart';
 import 'tokens.dart';
 
@@ -26,14 +34,41 @@ const double _stackAtScale = 1.35;
 /// Above this the two-up swatch grid becomes one column.
 const double _singleColumnAtScale = 1.6;
 
+// ── The stored values on this screen ─────────────────────────────────────────
+//
+// Integers, because that is how money and quantity are stored (AR-1, AR-2) and
+// how they arrive at every surface. Nothing on this screen holds a figure as
+// text or as a double.
+
+/// ৳1,08,500.00 — the figure DESIGN.md uses to state the grouping rule.
+const int _sampleAmountPaisa = 10850000;
+
+/// The same amount with paisa in it, so the two-language section shows the
+/// decimal case as well as the grouping.
+const int _sampleAmountWithPaisa = 10850050;
+
+const int _sampleCreditPaisa = 1250000;
+const int _sampleDebitPaisa = 320000;
+const int _ledgerCreditPaisa = 50000;
+const int _ledgerBalancePaisa = 436000;
+
+/// 2.5 kg of rice. Milli-units: quantity is not money and carries no ৳.
+const int _sampleQuantityMilli = 2500;
+const String _sampleQuantityUnit = 'কেজি';
+
 double _textScale(BuildContext context) =>
     MediaQuery.textScalerOf(context).scale(100) / 100;
 
-class ThemePreviewScreen extends StatelessWidget {
+class ThemePreviewScreen extends ConsumerWidget {
   const ThemePreviewScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // The language is read, never assumed. Story 1.9 gives it a settings screen
+    // and a persistent store; here it starts at Bangla and is remembered by
+    // nothing, which is exactly what this story asks for.
+    final HisabLanguage language = ref.watch(hisabLanguageProvider);
+
     return Scaffold(
       appBar: AppBar(
         // The app bar is fixed chrome at 58px, so its title clamps rather than
@@ -47,37 +82,48 @@ class ThemePreviewScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(HisabSpacing.screenMargin),
-          children: const <Widget>[
-            _Section(
+          children: <Widget>[
+            const _Section(
               heading: 'রং',
               note: 'প্রতিটি রঙের অর্থ একটাই — জমা, খরচ, সতর্কতা, হিসাবের নিজের কথা।',
               child: _Palette(),
             ),
-            SizedBox(height: HisabSpacing.cardGap),
+            const SizedBox(height: HisabSpacing.cardGap),
+            _Section(
+              heading: 'অঙ্ক',
+              note:
+                  'একই সংখ্যা, দুই ভাষায়। জমা টাকা বদলায় না — শুধু অঙ্ক আর কমার জায়গা বদলায়।',
+              child: _Numerals(
+                language: language,
+                onSelect: (HisabLanguage value) =>
+                    ref.read(hisabLanguageProvider.notifier).select(value),
+              ),
+            ),
+            const SizedBox(height: HisabSpacing.cardGap),
             _Section(
               heading: 'লেখার মাপ',
               note: 'টাকার অঙ্ক পর্দার সবচেয়ে বড় জিনিস। অঙ্কের চওড়া সবসময় সমান।',
-              child: _TypeScale(),
+              child: _TypeScale(language: language),
             ),
-            SizedBox(height: HisabSpacing.cardGap),
+            const SizedBox(height: HisabSpacing.cardGap),
             _Section(
               heading: 'টাকার রং',
               note: 'রং একা কিছু বোঝায় না — চিহ্ন আর কথাও সঙ্গে থাকে।',
-              child: _MoneyColors(),
+              child: _MoneyColors(language: language),
             ),
-            SizedBox(height: HisabSpacing.cardGap),
+            const SizedBox(height: HisabSpacing.cardGap),
             _Section(
               heading: 'খাতার সারি',
               note: 'ডান পাশের বাকির ঘরটাই সবচেয়ে ভারী — চোখ আগে সেখানে পড়ে।',
-              child: _LedgerRow(),
+              child: _LedgerRow(language: language),
             ),
-            SizedBox(height: HisabSpacing.cardGap),
-            _Section(
+            const SizedBox(height: HisabSpacing.cardGap),
+            const _Section(
               heading: 'বোতাম ও চিপ',
               note: 'সব বোতাম কমপক্ষে ৫৪ পিক্সেল উঁচু, এক হাতে চাপার মতো।',
               child: _Actions(),
             ),
-            SizedBox(height: HisabSpacing.s6),
+            const SizedBox(height: HisabSpacing.s6),
           ],
         ),
       ),
@@ -223,23 +269,132 @@ class _Swatch extends StatelessWidget {
   }
 }
 
-// ── Type scale ───────────────────────────────────────────────────────────────
+// ── Numerals: one stored value, both languages ───────────────────────────────
 
-class _TypeScale extends StatelessWidget {
-  const _TypeScale();
+/// The section that makes Story 1.3 visible on a device.
+///
+/// One integer — [_sampleAmountWithPaisa] — rendered twice. The digits and the
+/// group widths differ; the value does not. Underneath sits the machine-readable
+/// form that a CSV or a request body carries, which is the same in both
+/// languages by design: a spreadsheet cannot open Bangla digits and lakh commas.
+class _Numerals extends StatelessWidget {
+  const _Numerals({required this.language, required this.onSelect});
 
-  /// Conjuncts on purpose: ক্ত and ঙ্ক are the two that fail first when a face
-  /// is missing or a system font is substituted.
-  static const String _sample = 'হিসাব · বাকি · সংযুক্ত ক্ত ঙ্ক';
-  static const String _amount = '৳১,০৮,৫০০';
+  final HisabLanguage language;
+  final ValueChanged<HisabLanguage> onSelect;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Wrap(
+          spacing: HisabSpacing.s2,
+          runSpacing: HisabSpacing.s2,
+          children: <Widget>[
+            for (final HisabLanguage value in HisabLanguage.values)
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minWidth: HisabMetrics.minHitTarget,
+                  minHeight: HisabMetrics.minHitTarget,
+                ),
+                child: ChoiceChip(
+                  label: Text(value.endonym),
+                  selected: value == language,
+                  onSelected: (_) => onSelect(value),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: HisabSpacing.s3),
+        for (final HisabLanguage value in HisabLanguage.values)
+          _Figure(
+            label: value.endonym,
+            value: MoneyFormat.format(
+              _sampleAmountWithPaisa,
+              language: value,
+            ),
+            style: value == language
+                ? HisabTextStyles.amountLg
+                : HisabTextStyles.amountMd,
+          ),
+        _Figure(
+          label: 'রপ্তানির জন্য',
+          value: MoneyFormat.export(_sampleAmountWithPaisa),
+          style: HisabTextStyles.body,
+        ),
+        _Figure(
+          label: 'পরিমাণ',
+          value: QuantityFormat.format(
+            _sampleQuantityMilli,
+            language: language,
+            unit: _sampleQuantityUnit,
+          ),
+          style: HisabTextStyles.amountMd,
+        ),
+      ],
+    );
+  }
+}
+
+/// A labelled figure: the amount first, then what it is. The figure is read
+/// before its label (EXPERIENCE.md § Accessibility Floor), and it scales down
+/// rather than clipping at the largest system font size.
+class _Figure extends StatelessWidget {
+  const _Figure({
+    required this.label,
+    required this.value,
+    required this.style,
+  });
+
+  final String label;
+  final String value;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: HisabSpacing.s3),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            width: double.infinity,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(value, style: style),
+            ),
+          ),
+          Text(label, style: HisabTextStyles.label),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Type scale ───────────────────────────────────────────────────────────────
+
+class _TypeScale extends StatelessWidget {
+  const _TypeScale({required this.language});
+
+  final HisabLanguage language;
+
+  /// Conjuncts on purpose: ক্ত and ঙ্ক are the two that fail first when a face
+  /// is missing or a system font is substituted.
+  static const String _sample = 'হিসাব · বাকি · সংযুক্ত ক্ত ঙ্ক';
+
+  @override
+  Widget build(BuildContext context) {
+    final String amount = MoneyFormat.format(
+      _sampleAmountPaisa,
+      language: language,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
         for (final HisabTypeRole role in HisabTypeScale.amounts)
-          _TypeRow(role: role, sample: _amount),
+          _TypeRow(role: role, sample: amount),
         for (final HisabTypeRole role in HisabTypeScale.text)
           _TypeRow(role: role, sample: _sample),
       ],
@@ -286,7 +441,9 @@ class _TypeRow extends StatelessWidget {
 // ── Money colours ────────────────────────────────────────────────────────────
 
 class _MoneyColors extends StatelessWidget {
-  const _MoneyColors();
+  const _MoneyColors({required this.language});
+
+  final HisabLanguage language;
 
   @override
   Widget build(BuildContext context) {
@@ -295,13 +452,23 @@ class _MoneyColors extends StatelessWidget {
       children: <Widget>[
         _MoneyLine(
           word: 'জমা হলো',
-          amount: '+ ৳১২,৫০০',
+          // The direction is in the sign as well as the colour: colour is never
+          // the only carrier of meaning.
+          amount: MoneyFormat.format(
+            _sampleCreditPaisa,
+            language: language,
+            sign: MoneySign.always,
+          ),
           style: HisabTextStyles.amountMd.copyWith(color: HisabColors.moneyIn),
         ),
         const SizedBox(height: HisabSpacing.s2),
         _MoneyLine(
           word: 'খরচ হলো',
-          amount: '− ৳৩,২০০',
+          amount: MoneyFormat.format(
+            -_sampleDebitPaisa,
+            language: language,
+            sign: MoneySign.always,
+          ),
           style: HisabTextStyles.amountMd.copyWith(color: HisabColors.moneyOut),
         ),
       ],
@@ -349,16 +516,26 @@ class _MoneyLine extends StatelessWidget {
 // ── Ledger row ───────────────────────────────────────────────────────────────
 
 class _LedgerRow extends StatelessWidget {
-  const _LedgerRow();
+  const _LedgerRow({required this.language});
 
+  final HisabLanguage language;
+
+  // A date, not a figure: dates are formatted by their own utility in a later
+  // story and are not this story's business.
   static const String _date = '০৯ সেপ্ট';
   static const String _description = 'রহিম — চাল ৫ কেজি';
-  static const String _credit = '৳৫০০';
-  static const String _balance = '৳৪,৩৬০';
 
   @override
   Widget build(BuildContext context) {
     final bool stacked = _textScale(context) > _stackAtScale;
+    final String credit = MoneyFormat.format(
+      _ledgerCreditPaisa,
+      language: language,
+    );
+    final String balance = MoneyFormat.format(
+      _ledgerBalancePaisa,
+      language: language,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,8 +553,8 @@ class _LedgerRow extends StatelessWidget {
           _LedgerGrid(
             date: _date,
             description: _description,
-            credit: _credit,
-            balance: _balance,
+            credit: credit,
+            balance: balance,
             style: HisabTextStyles.ledger,
             creditStyle: HisabTextStyles.ledger.copyWith(
               color: HisabColors.moneyIn,
@@ -385,11 +562,11 @@ class _LedgerRow extends StatelessWidget {
             balanceStyle: HisabTextStyles.ledgerBalance,
           ),
         ] else
-          const _LedgerStacked(
+          _LedgerStacked(
             date: _date,
             description: _description,
-            credit: _credit,
-            balance: _balance,
+            credit: credit,
+            balance: balance,
           ),
         const Divider(),
       ],

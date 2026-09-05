@@ -7,6 +7,7 @@
 // viewport these tests use — the smallest the product supports.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hisab/theme/hisab_theme.dart';
 import 'package:hisab/theme/theme_preview.dart';
@@ -22,15 +23,20 @@ const Size kSmallestPhone = Size(360, 640);
 const List<double> kTextScales = <double>[1.0, 2.0, 3.0];
 
 Widget _app(double textScale) {
-  return MaterialApp(
-    theme: HisabTheme.light(),
-    debugShowCheckedModeBanner: false,
-    home: const ThemePreviewScreen(),
-    builder: (BuildContext context, Widget? child) => MediaQuery(
-      data: MediaQuery.of(
-        context,
-      ).copyWith(textScaler: TextScaler.linear(textScale)),
-      child: child!,
+  // The preview reads the language from Riverpod (Story 1.3), so it needs the
+  // same scope main.dart gives it. Nothing is overridden: the app under test
+  // starts in Bangla, which is what an owner who never opens settings gets.
+  return ProviderScope(
+    child: MaterialApp(
+      theme: HisabTheme.light(),
+      debugShowCheckedModeBanner: false,
+      home: const ThemePreviewScreen(),
+      builder: (BuildContext context, Widget? child) => MediaQuery(
+        data: MediaQuery.of(
+          context,
+        ).copyWith(textScaler: TextScaler.linear(textScale)),
+        child: child!,
+      ),
     ),
   );
 }
