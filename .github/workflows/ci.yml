@@ -98,5 +98,24 @@ jobs:
       - name: No second number formatter outside lib/format/
         run: dart run tool/check_single_formatter.dart
 
+      # AD-17 / AR-17 — Drift generates the schema, the companions and the row
+      # classes into `.g.dart` files that are NOT committed. Nothing under
+      # lib/data/ compiles until this runs, so it runs before analyze rather
+      # than after it, and a generator failure stops the build here with the
+      # generator's own message instead of a hundred "undefined class" errors.
+      - name: Generate Drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      # AD-1, AD-2, AD-3, AD-4, AD-9, AD-10, AD-11, AD-19 — the storage
+      # conventions Story 1.4 established and every later table inherits: money
+      # named `…Paisa`, quantity named `…Milli`, one client-minted UUIDv7 per
+      # record, no serverId, no stored balance, every table classified financial
+      # or reference, and Drift importable only from lib/data/. A deviation here
+      # is inherited by every table that comes after it, so it is blocked at the
+      # merge rather than found three epics later in a figure that disagrees
+      # with itself.
+      - name: Storage conventions hold
+        run: dart run tool/check_data_access.dart
+
       - run: flutter analyze
       - run: flutter test
