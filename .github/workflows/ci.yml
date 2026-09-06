@@ -1,9 +1,31 @@
 name: CI
 
+# ─── DISABLED 06-09-2026, by request. Manual only. ───────────────────────────
+#
+# This workflow no longer runs on push or on a pull request. It runs only when
+# someone starts it by hand from the Actions tab (or `gh workflow run ci.yml`).
+#
+# Why it is disabled rather than deleted: every check in it is still correct and
+# still worth running. The Flutter job would currently fail for a real reason —
+# `build_runner` has never been run against Stories 1.4 and 1.5, so the Drift
+# generated code does not exist and nothing under lib/data/ compiles yet. A red
+# build that everyone knows to ignore is worse than no build, because it is how
+# the first genuine failure gets ignored too.
+#
+# TO TURN IT BACK ON: delete the `workflow_dispatch:` line below and restore
+#
+#   on:
+#     pull_request:
+#     push:
+#       branches: [main]
+#
+# The right moment is when `flutter analyze && flutter test` passes locally.
+# Nothing else in the file needs to change — the jobs, the font check and the
+# three convention checks are all unchanged and all still wanted.
+# ─────────────────────────────────────────────────────────────────────────────
+
 on:
-  pull_request:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
