@@ -87,7 +87,7 @@ class LockGateState extends ConsumerState<LockGate>
   @override
   Widget build(BuildContext context) {
     final LockPhase phase = ref.watch(
-      lockControllerProvider.select((LockState state) => state.phase),
+      lockControllerProvider.select((HisabLockState state) => state.phase),
     );
 
     return switch (phase) {

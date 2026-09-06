@@ -51,8 +51,15 @@ enum LockPhase {
 }
 
 /// The lock, as the widgets see it.
-class LockState {
-  const LockState({
+/// Named `HisabLockState`, not `LockState`, on purpose.
+///
+/// Flutter already exports a `LockState` — it is the caps/num-lock enum in
+/// `widgets/shortcuts.dart`, re-exported by `material.dart`. Any file importing
+/// both this and Material got "imported from both" and would not compile. The
+/// prefix also matches the rest of the codebase: HisabColors, HisabIds,
+/// HisabDatabase, HisabLanguage, HisabDigits.
+class HisabLockState {
+  const HisabLockState({
     required this.phase,
     this.lockout = LockoutState.clear,
     this.lastAttemptFailed = false,
@@ -69,22 +76,22 @@ class LockState {
 
   bool get isOpen => phase == LockPhase.open;
 
-  LockState copyWith({
+  HisabLockState copyWith({
     LockPhase? phase,
     LockoutState? lockout,
     bool? lastAttemptFailed,
-  }) => LockState(
+  }) => HisabLockState(
     phase: phase ?? this.phase,
     lockout: lockout ?? this.lockout,
     lastAttemptFailed: lastAttemptFailed ?? this.lastAttemptFailed,
   );
 
   @override
-  String toString() => 'LockState($phase, $lockout, failed: $lastAttemptFailed)';
+  String toString() => 'HisabLockState($phase, $lockout, failed: $lastAttemptFailed)';
 }
 
 /// The one mutator of the lock (AR-29).
-class LockController extends Notifier<LockState> {
+class LockController extends Notifier<HisabLockState> {
   /// FR-7: locked again after five minutes in the background.
   static const Duration graceWindow = Duration(minutes: 5);
 
@@ -95,13 +102,13 @@ class LockController extends Notifier<LockState> {
   late DateTime Function() _clock;
 
   @override
-  LockState build() {
+  HisabLockState build() {
     _pins = ref.watch(pinStoreProvider);
     _lockout = ref.watch(pinLockoutProvider);
     _clock = ref.watch(lockClockProvider);
     // Deliberately NOT `unknown -> open`. The gate calls `restore()` as it
     // mounts; until the keystore answers, the app shows nothing of the ledger.
-    return const LockState(phase: LockPhase.unknown);
+    return const HisabLockState(phase: LockPhase.unknown);
   }
 
   /// Reads the keystore and decides the opening screen. Called once, by the
@@ -112,14 +119,14 @@ class LockController extends Notifier<LockState> {
       final LockoutState lockout = hasPin
           ? await _lockout.read()
           : LockoutState.clear;
-      state = LockState(
+      state = HisabLockState(
         phase: hasPin ? LockPhase.locked : LockPhase.needsPin,
         lockout: lockout,
       );
     } on PinSecurityException {
-      state = const LockState(phase: LockPhase.unavailable);
+      state = const HisabLockState(phase: LockPhase.unavailable);
     } on PinLockoutUnavailableException {
-      state = const LockState(phase: LockPhase.unavailable);
+      state = const HisabLockState(phase: LockPhase.unavailable);
     }
   }
 
@@ -131,7 +138,7 @@ class LockController extends Notifier<LockState> {
   Future<void> choosePin(String pin) async {
     await _pins.save(pin);
     await _lockout.recordSuccess();
-    state = const LockState(phase: LockPhase.open);
+    state = const HisabLockState(phase: LockPhase.open);
   }
 
   /// Tries [pin]. True when it opened the খাতা.
@@ -147,12 +154,12 @@ class LockController extends Notifier<LockState> {
       final bool correct = await _pins.verify(pin);
       if (correct) {
         final LockoutState cleared = await _lockout.recordSuccess();
-        state = LockState(phase: LockPhase.open, lockout: cleared);
+        state = HisabLockState(phase: LockPhase.open, lockout: cleared);
         return true;
       }
 
       final LockoutState next = await _lockout.recordFailure();
-      state = LockState(
+      state = HisabLockState(
         phase: LockPhase.locked,
         lockout: next,
         lastAttemptFailed: true,
@@ -161,10 +168,10 @@ class LockController extends Notifier<LockState> {
     } on PinSecurityException {
       // A keystore that stopped answering mid-session. Not an unlock, and not
       // a counted attempt either — the owner may well have typed it correctly.
-      state = const LockState(phase: LockPhase.unavailable);
+      state = const HisabLockState(phase: LockPhase.unavailable);
       return false;
     } on PinLockoutUnavailableException {
-      state = const LockState(phase: LockPhase.unavailable);
+      state = const HisabLockState(phase: LockPhase.unavailable);
       return false;
     }
   }
@@ -232,5 +239,5 @@ final Provider<PinLockout> pinLockoutProvider = Provider<PinLockout>(
 );
 
 /// Whether the খাতা is open.
-final NotifierProvider<LockController, LockState> lockControllerProvider =
-    NotifierProvider<LockController, LockState>(LockController.new);
+final NotifierProvider<LockController, HisabLockState> lockControllerProvider =
+    NotifierProvider<LockController, HisabLockState>(LockController.new);

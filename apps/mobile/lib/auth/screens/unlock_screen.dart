@@ -111,7 +111,7 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
   @override
   Widget build(BuildContext context) {
     final HisabLanguage language = ref.watch(hisabLanguageProvider);
-    final LockState lock = ref.watch(lockControllerProvider);
+    final HisabLockState lock = ref.watch(lockControllerProvider);
     final DateTime now = ref.read(lockClockProvider)();
     final Duration wait = lock.lockout.remaining(now);
     final bool waiting = wait > Duration.zero;
@@ -178,7 +178,7 @@ class _Message extends StatelessWidget {
   });
 
   final HisabLanguage language;
-  final LockState lock;
+  final HisabLockState lock;
   final Duration wait;
 
   @override
