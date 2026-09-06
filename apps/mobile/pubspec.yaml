@@ -23,6 +23,12 @@ environment:
 
 dependencies:
   connectivity_plus: ^7.3.1
+  # Story 1.5 promotes `crypto` from transitive to direct. It was already in
+  # pubspec.lock underneath other packages, and depending on it there is
+  # depending on someone else's choice: the day that package drops it, the PIN
+  # stops hashing. Added with `flutter pub add crypto`; it supplies HMAC-SHA256,
+  # over which lib/auth/pin_store.dart writes PBKDF2 (RFC 8018) by hand.
+  crypto: ^3.0.7
   dio: ^5.11.0
   drift: ^2.34.4
   firebase_core: ^4.14.0

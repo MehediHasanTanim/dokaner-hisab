@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 09-03-2026 01:59
-last_updated: 09-05-2026 16:00
+last_updated: 09-06-2026 14:00
 project: hisab-dokan
 project_key: NOKEY
 tracking_system: file-system
@@ -40,12 +40,12 @@ development_status:
   1-2-make-the-app-look-like-hisab: review
   1-3-show-numbers-the-way-the-owner-reads-them: review
   1-4-keep-the-shop-s-data-safe-on-the-phone: review
-  1-5-sign-in-with-my-phone-number: backlog
+  1-5-set-a-pin-and-open-my-khata: review
   1-6-stay-signed-in-and-sign-out-safely: backlog
   1-7-tell-hisab-about-my-business: backlog
   1-8-record-what-money-the-shop-has-today: backlog
   1-9-choose-my-language: backlog
-  1-10-lock-the-app: backlog
+  1-10-lock-the-app: done   # absorbed into story 1.5 on 06-09-2026; see epics.md
   1-11-work-with-no-internet-at-all: backlog
   epic-1-retrospective: optional
 
@@ -145,6 +145,18 @@ development_status:
 # loaded as project_knowledge) was fixed before this file was written, and the
 # PaaS vendor was decided. These are what remain.
 action_items:
+  - epic: 6
+    action: "DEFERRED FROM EPIC 1, 06-09-2026: choose the SMS provider and get a BTRC-registered masking sender ID. The MVP now opens on a local six-digit PIN and asks for no phone number, so no SMS is sent and nothing is blocked today. The day backup, restore or a second device is built, this is on the critical path: sender-ID registration needs a trade licence and takes weeks. Local BD aggregators quote 0.30-0.40 BDT per OTP SMS against Firebase Auth's per-message rate, and Firebase cannot express FR-1's expiry, rate-limit and lockout rules anyway - the server should own the OTP state and the provider should sit behind an interface with a named fallback (risk R-8)."
+    owner: "Tanim"
+    status: open
+  - epic: 1
+    action: "Unlocking with a fingerprint is NOT built. Story 1.10 was absorbed into Story 1.5, but biometric unlock needs `flutter pub add local_auth` and, on Android, MainActivity extending FlutterFragmentActivity. It is a convenience over the PIN, not a replacement, so it was left out rather than written against an unverified API in a codebase that has not compiled yet."
+    owner: "Tanim"
+    status: open
+  - epic: 1
+    action: "TELL THE OWNER THE TRUTH ABOUT BACKUP. With no phone number linked, a shop's খাতা exists on exactly one phone and a lost handset loses it. Story 1.5 puts that sentence in front of the owner in Bangla. Before any real shop uses this, confirm that message is present, honest and unmissable - this is the one place the PIN decision costs a user something real."
+    owner: "Tanim"
+    status: open
   - epic: 7
     action: "Choose the AI/LLM provider and confirm its no-training contract terms (PRD §9). Story 7.2 onward cannot be built without it; the interface is abstracted so the choice is reversible."
     owner: "Tanim"

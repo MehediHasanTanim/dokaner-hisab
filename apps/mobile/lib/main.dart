@@ -8,6 +8,9 @@
 //   2. `MaterialApp` takes the Hisab theme. Every screen from here on reads its
 //      colour, type, radius and spacing from it — no widget declares a literal,
 //      and `tool/check_theme_tokens.dart` fails the build when one does.
+//   3. `home` is wrapped in the PIN lock. The gate is applied once, here, so
+//      that whatever `home` becomes — the preview today, the navigation shell
+//      later — is behind it and cannot be reached around it (Story 1.5).
 //
 // The home screen is the theme preview: scaffolding for this story, replaced by
 // the real routing shell when the navigation story lands. There is no হোম here,
@@ -16,6 +19,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'auth/lock_gate.dart';
 import 'theme/hisab_theme.dart';
 import 'theme/theme_preview.dart';
 
@@ -39,7 +43,10 @@ class HisabApp extends StatelessWidget {
       // letting the platform substitute a Material default at night.
       darkTheme: HisabTheme.light(),
       themeMode: ThemeMode.light,
-      home: const ThemePreviewScreen(),
+      // The lock wraps whatever `home` is. On a cold start nothing of the
+      // ledger is built until the PIN is entered — the preview stays reachable,
+      // behind it.
+      home: const LockGate(child: ThemePreviewScreen()),
     );
   }
 }

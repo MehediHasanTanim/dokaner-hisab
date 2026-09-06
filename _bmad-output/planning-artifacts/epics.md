@@ -598,38 +598,62 @@ So that I never lose my হিসাব and nobody else can read it.
 **When** the encrypted database is benchmarked on a mid-range 2023 Android device
 **Then** a local write still confirms within 100 ms (NFR-1), and the measured figure is recorded
 
-### Story 1.5: Sign in with my phone number
+### Story 1.5: Set a PIN and open my খাতা
+
+> **Rewritten 06-09-2026.** Replaces "Sign in with my phone number". SMS OTP is
+> deferred to Epic 6, where the phone number is asked for once, to enable backup
+> and restore. See the supersession note on FR-1. **Story 1.10 is absorbed into
+> this story** — a PIN gate and an app lock are one mechanism, and two stories
+> writing one lock policy is how the two policies come to disagree.
 
 As a shop owner,
-I want to sign in with my mobile number and a code, with no password to remember,
-So that I can start using the app without creating credentials I will forget.
+I want to open my খাতা with a six-digit PIN I choose myself,
+So that nobody who picks up my phone can read my business, and I can start using the app the moment I install it.
 
 **Acceptance Criteria:**
 
-**Given** the sign-in screen (FR-1)
-**When** a Bangladeshi mobile number is entered
-**Then** the format `+8801XXXXXXXXX` with operator prefixes 013–019 is accepted, and any other format is rejected inline in Bangla
+**Given** a fresh install
+**When** the app first opens
+**Then** the owner is asked to choose a six-digit PIN and to confirm it, in Bangla, with no phone number and no network call of any kind
+**And** an obviously weak PIN — all one digit, a run like ১২৩৪৫৬, or one of the commonest few — is refused with a reason, not silently accepted
 
-**Given** a valid number is submitted
-**When** the request succeeds
-**Then** an OTP is sent within 30 seconds and a code-entry screen appears with a visible countdown
+**Given** a PIN has been set
+**When** it is stored
+**Then** only a salted hash reaches the platform keystore; the PIN itself is never written to storage, never logged, and never leaves the device
 
-**Given** a code has been issued
-**When** it is used after 5 minutes
-**Then** it is rejected with a message distinct from the one for an incorrect code
+**Given** the app is opened cold, or returns to the foreground after 5 minutes in the background
+**When** the lock screen appears
+**Then** the correct PIN opens it, and the খাতা behind it is unreadable until it does
 
-**Given** repeated attempts
-**When** 5 OTP requests are made for one number within an hour
-**Then** further requests are refused with a message naming when the owner may retry
-**And** 5 consecutive incorrect entries invalidate the code and require a fresh request
+**Given** wrong PINs are entered
+**When** attempts fail repeatedly
+**Then** the delay before the next attempt grows — and the app never wipes the owner's data as a punishment for a bad memory
 
-**Given** a successful sign-in
-**When** credentials are stored
-**Then** they are written to platform secure storage, never to plain files
+**Given** an owner who has forgotten their PIN
+**When** they say so
+**Then** they are told the truth in Bangla: without a linked phone number there is no way back in, and reinstalling erases the খাতা
+**And** the same screen offers to link a phone number **when that becomes possible**, which is the point of Epic 6
 
-**Given** an owner who already has a Business signs in on a new device
-**When** authentication succeeds
-**Then** their existing Business is restored, and no second Business is created
+**Given** the owner has not linked a phone number
+**When** they reach Home for the first time and periodically after
+**Then** they are told, once and without alarm, that their খাতা lives only on this phone
+
+**Given** background sync (Epic 6, Story 1.11)
+**When** the app is locked
+**Then** sync continues unaffected — the lock is on reading, not on recording
+
+**Note on what a six-digit PIN is and is not.** It is a gate against the person
+who picks the phone up: a customer leaning over the counter, a relative, a thief
+who wants a phone rather than a ledger. It is **not** cryptographic protection of
+the file — a million combinations fall in seconds to anyone who can read the
+storage. What protects the file is AD-17's SQLCipher key in the platform
+keystore, established in Story 1.4. The PIN does not wrap that key, deliberately:
+wrapping it would mean a forgotten PIN destroys the shop's records, and a
+six-digit secret buys too little to be worth that.
+
+**Deferred to Epic 6 with the phone number:** OTP delivery and its provider,
+restore-on-a-new-device, and PIN reset. FR-1's OTP consequences are the contract
+for that day and are unchanged.
 
 ### Story 1.6: Stay signed in, and sign out safely
 
@@ -731,25 +755,21 @@ So that I can read it without help.
 **When** it is displayed in Bangla
 **Then** every string, error, notification and label is translated — an untranslated user-facing string is a defect, not a polish item
 
-### Story 1.10: Lock the app
+### Story 1.10: Lock the app — ABSORBED INTO STORY 1.5
 
-As a shop owner,
-I want to require my fingerprint or PIN before the app opens,
-So that someone holding my phone cannot read my business.
-
-**Acceptance Criteria:**
-
-**Given** app lock is off by default (FR-7)
-**When** the owner enables it in Settings
-**Then** the device biometric or PIN is required on cold start and on returning to foreground after 5 minutes in background
-
-**Given** biometric authentication fails
-**When** the fallback is offered
-**Then** it is the device PIN, never a bypass
-
-**Given** app lock is enabled
-**When** the app is locked
-**Then** background sync continues unaffected
+> **06-09-2026.** A PIN gate and an app lock are the same mechanism, so this
+> story's acceptance criteria moved into the rewritten Story 1.5 rather than
+> being written twice. What changed in the move: the lock is **on by default**
+> rather than off, because with no phone-number identity the PIN is now the only
+> thing standing between a stolen phone and the shop's ledger; and the fallback
+> is the app's own PIN rather than the device PIN, because the app has one now.
+>
+> **One piece is genuinely not built yet:** unlocking with a fingerprint. It
+> needs the `local_auth` package, which is not in the lockfile, and on Android it
+> requires `MainActivity` to extend `FlutterFragmentActivity` — a manifest change
+> that is easy to miss and easy to get wrong. It is a convenience over the PIN,
+> not a replacement for it, and it is tracked as an open action item rather than
+> quietly counted as done.
 
 ### Story 1.11: Work with no internet at all
 

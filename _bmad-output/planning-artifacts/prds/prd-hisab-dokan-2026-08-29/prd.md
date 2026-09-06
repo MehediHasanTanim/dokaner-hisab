@@ -195,6 +195,22 @@ The Opening Balance step is the one that must not be skipped silently: without i
 
 #### FR-1: Phone-number authentication with OTP
 
+> **SUPERSEDED FOR MVP — decided by Tanim, 06-09-2026.** SMS OTP is deferred.
+> The MVP opens on a **six-digit PIN set on the device**: no phone number, no SMS
+> provider, no BTRC sender-ID registration, no per-message cost, and nothing
+> between install and the owner's first sale. The phone number is asked for
+> **later**, once and only once, when the owner first wants backup, restore or a
+> second device — which is Epic 6's business, not Epic 1's.
+>
+> What that costs, stated plainly: until the owner links a number, their খাতা
+> exists on exactly one phone. A lost or broken phone loses it. The app must say
+> so in Bangla rather than let an owner discover it.
+>
+> The consequences below stand **unchanged for the day the phone number is
+> introduced** — they are the OTP contract, not deleted, only moved. The rest of
+> this FR is superseded by Story 1.5's rewritten acceptance criteria in epics.md.
+> The SMS provider decision is recorded as an open action item in sprint-status.
+
 A User can authenticate by entering a Bangladeshi mobile number and the one-time code sent to it by SMS. Realizes UJ-1, UJ-10.
 
 **Consequences (testable):**
